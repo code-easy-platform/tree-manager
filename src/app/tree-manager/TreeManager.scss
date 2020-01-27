@@ -1,0 +1,15 @@
+@import "./../style/variables.scss";
+
+.tree-item {
+  height: min-content;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+}
+
+.tree-item:hover {
+  background-color: $color-top-bar;
+}
+.tree-item:active {
+  background-color: $color-background-col-click;
+}
