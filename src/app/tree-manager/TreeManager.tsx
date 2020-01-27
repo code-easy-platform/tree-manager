@@ -20,6 +20,7 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase }) => {
                 }}
                 paddingLeft={5}
             />
+            <div style={{ paddingBottom: 100 }} />
         </div>
     );
 }
