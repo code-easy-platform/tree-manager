@@ -1,14 +1,22 @@
 @import "./../style/variables.scss";
 
+.tree-base {
+  flex-direction: column;
+  overflow: auto;
+  flex: 1;
+}
+
 .tree-item {
   height: min-content;
   cursor: pointer;
-  padding: 5px;
   width: 100%;
+  .item {
+    padding: 5px;
+  }
 }
 
 .tree-item:hover {
-  background-color: $color-top-bar;
+  background-color: #3c3c3c3b;
 }
 .tree-item:active {
   background-color: $color-background-col-click;
