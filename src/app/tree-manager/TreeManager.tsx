@@ -13,9 +13,9 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick }) => {
 
     const [state, setState] = useState("");
 
-    const onSelect = (id: string) => {
+    const onSelect = (id: string, item: TreeInterface) => {
         setState(id);
-        onClick(id);
+        onClick(id, item);
     }
 
     return (
@@ -60,7 +60,7 @@ const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, itemIdSelected })
                         ...state,
                         nodeExpanded: !state.nodeExpanded,
                     });
-                    onClick(item.itemId);
+                    onClick(item.itemId, item);
                 }}
             />
             {state.nodeExpanded &&
