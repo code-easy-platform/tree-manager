@@ -31,6 +31,7 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick }) => {
                 }}
                 paddingLeft={5}
                 onClick={onSelect}
+                onContextMenu={(e: any) => { }}
                 itemIdSelected={state}
             />
             <div style={{ paddingBottom: 100 }} />
@@ -43,9 +44,10 @@ interface TreeProps {
     item: TreeInterface,
     paddingLeft: number,
     onClick: Function,
+    onContextMenu(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined,
     itemIdSelected: string,
 }
-const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, itemIdSelected }) => {
+const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, onContextMenu, itemIdSelected }) => {
     const [state, setState] = useState<TreeInterface>(item);
 
     state.isSelected = itemIdSelected === state.itemId;
@@ -53,7 +55,7 @@ const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, itemIdSelected })
     return (
         <>
             <TreeItem
-                onContextMenu={(e: any) => { }}
+                onContextMenu={onContextMenu}
                 paddingLeft={paddingLeft}
                 itemTree={state}
                 onSelect={(e) => {
@@ -67,7 +69,7 @@ const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, itemIdSelected })
             {state.nodeExpanded &&
                 state.itemChilds.map((item: TreeInterface) => {
                     return (
-                        <Tree itemIdSelected={itemIdSelected} onClick={onClick} paddingLeft={paddingLeft + 10} item={item} />
+                        <Tree itemIdSelected={itemIdSelected} onContextMenu={onContextMenu} onClick={onClick} paddingLeft={paddingLeft + 10} item={item} />
                     );
                 })
             }
