@@ -7,16 +7,17 @@ import './TreeManager.scss';
 
 interface TreeManagerProps {
     itemBase: TreeInterface,
-    onClick: Function,
+    onClick(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
+    onDoubleClick(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     onContextMenu(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick, onContextMenu }) => {
+export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick, onContextMenu, onDoubleClick }) => {
 
     const [state, setState] = useState("");
 
-    const onSelect = (id: string, item: TreeInterface) => {
+    const onSelect = (id: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setState(id);
-        onClick(id, item);
+        onClick(id, item, e);
     }
 
     return (
@@ -34,6 +35,7 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick, onContext
                 onClick={onSelect}
                 itemIdSelected={state}
                 onContextMenu={onContextMenu}
+                onDoubleClick={onDoubleClick}
             />
             <div style={{ paddingBottom: 100 }} />
         </div>

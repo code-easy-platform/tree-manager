@@ -7,10 +7,11 @@ import { Icon } from './icon/icon';
 interface ItemTreeProps {
     paddingLeft: number,
     itemTree: TreeInterface,
-    onSelect(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined,
+    onSelect(itemTreeId: string, event: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined,
+    onDoubleClick(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     onContextMenu(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined,
 }
-export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, onContextMenu }) => {
+export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, onContextMenu, onDoubleClick }) => {
 
     // Vai mandar para fora da arvore qual o id do item que foi clicado.
     const onContext = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -23,7 +24,8 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, o
             key={itemTree.itemId}
             onContextMenu={onContext}
             id={"tree_" + itemTree.itemId}
-            onClick={(e: any) => onSelect(e)}
+            onClick={(e: any) => onSelect(itemTree.itemId, e)}
+            onDoubleClick={e => { onDoubleClick(itemTree.itemId, itemTree, e) }}
             style={{ backgroundColor: (itemTree.isSelected ? "#6060a730" : "") }}
         >
             <div className="item" style={{ paddingLeft: `${paddingLeft}px` }}>
