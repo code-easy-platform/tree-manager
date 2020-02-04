@@ -1,15 +1,16 @@
 import React, { FC, useState } from 'react';
 
-import { TreeInterface } from './shared/models/TreeInterface';
-import './TreeManager.scss';
-import { TreeItem } from './shared/components/TreeItem';
 import { TreeItensTypes } from './shared/models/TreeItensTypes';
+import { TreeInterface } from './shared/models/TreeInterface';
+import { Tree } from './shared/components/Tree';
+import './TreeManager.scss';
 
 interface TreeManagerProps {
     itemBase: TreeInterface,
     onClick: Function,
+    onContextMenu(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick }) => {
+export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick, onContextMenu }) => {
 
     const [state, setState] = useState("");
 
@@ -31,48 +32,11 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick }) => {
                 }}
                 paddingLeft={5}
                 onClick={onSelect}
-                onContextMenu={(e: any) => { }}
                 itemIdSelected={state}
+                onContextMenu={onContextMenu}
             />
             <div style={{ paddingBottom: 100 }} />
         </div>
     );
 
-}
-
-interface TreeProps {
-    item: TreeInterface,
-    paddingLeft: number,
-    onClick: Function,
-    onContextMenu(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined,
-    itemIdSelected: string,
-}
-const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, onContextMenu, itemIdSelected }) => {
-    const [state, setState] = useState<TreeInterface>(item);
-
-    state.isSelected = itemIdSelected === state.itemId;
-
-    return (
-        <>
-            <TreeItem
-                onContextMenu={onContextMenu}
-                paddingLeft={paddingLeft}
-                itemTree={state}
-                onSelect={(e) => {
-                    setState({
-                        ...state,
-                        nodeExpanded: !state.nodeExpanded,
-                    });
-                    onClick(item.itemId, item);
-                }}
-            />
-            {state.nodeExpanded &&
-                state.itemChilds.map((item: TreeInterface) => {
-                    return (
-                        <Tree itemIdSelected={itemIdSelected} onContextMenu={onContextMenu} onClick={onClick} paddingLeft={paddingLeft + 10} item={item} />
-                    );
-                })
-            }
-        </>
-    );
 }

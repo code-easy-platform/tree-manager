@@ -97,7 +97,7 @@ const App: FC = () => {
           <TreeManager
             onClick={(id: string) => { /* alert(id)  */ }}
             itemBase={{ itemId: "0", itemLabel: "Item 01", isSelected: false, itemChilds: itens, itemType: TreeItensTypes.folder, nodeExpanded: false }}
-            
+            onContextMenu={(itemId, e) => { e.preventDefault() }}
           />
 
         </div>
