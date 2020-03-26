@@ -21,6 +21,12 @@
 .tree-item:active {
   background-color: $color-background-col-click;
 }
+.tree-item[selected="true"] {
+  background-color: #1f724330;
+}
+.tree-item[selected="true"]:hover {
+  background-color: #1f724340;
+}
 
 .menu-context {
   position: fixed;

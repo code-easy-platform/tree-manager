@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 import { TreeInterface } from '../models/TreeInterface';
 
 import { TreeItensTypes } from '../models/TreeItensTypes';
@@ -18,15 +18,21 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, o
         onContextMenu(itemTree.itemId, e);
     }
 
+    const itemRef = useRef(null);
+    if (itemRef.current) {
+        let item: any = itemRef.current
+        item.setAttribute('selected', itemTree.isSelected);
+    }
+
     return (
         <div
+            ref={itemRef}
             className="tree-item"
             key={itemTree.itemId}
             onContextMenu={onContext}
             id={"tree_" + itemTree.itemId}
             onClick={(e: any) => onSelect(itemTree.itemId, e)}
             onDoubleClick={e => { onDoubleClick(itemTree.itemId, itemTree, e) }}
-            style={{ backgroundColor: (itemTree.isSelected ? "#6060a730" : "") }}
         >
             <div className="item" style={{ paddingLeft: `${paddingLeft}px` }}>
                 {itemTree.itemType === TreeItensTypes.folder &&
