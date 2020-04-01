@@ -95,6 +95,13 @@ const App: FC = () => {
         <div style={{ width: 300, height: 500, alignSelf: "center", backgroundColor: "#1E1E1E", flexDirection: "column" }}>
 
           <TreeManager
+            isUseDrag={true}
+            isUseDrop={true}
+            onDropItem={(targetId, droppedId, droppedItem)=>{
+              console.log(targetId);
+              console.log(droppedId);
+              console.log(droppedItem);
+            }}
             onClick={(id: string) => { /* alert(id)  */ }}
             itemBase={{ itemId: "0", itemLabel: "Item 01", isSelected: false, itemChilds: itens, itemType: TreeItensTypes.folder, nodeExpanded: false }}
             onContextMenu={(itemId, e) => { e.preventDefault() }}
