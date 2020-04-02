@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -22,10 +22,14 @@ export const TreeManager: FC<TreeManagerProps> = ({ itemBase, onClick, onContext
         clickedId: "",
         itemBase: itemBase
     });
-    state.itemBase = itemBase;
+
+    const clickedId = state.clickedId;
+    useEffect(() => {
+        setState({ clickedId, itemBase })
+    }, [clickedId, itemBase]);
 
     const onSelect = (id: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        setState({...state, clickedId: id});
+        setState({ ...state, clickedId: id });
         onClick(id, item, e);
     }
 
