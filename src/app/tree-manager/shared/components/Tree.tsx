@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { TreeInterface } from '../models/TreeInterface';
 import { TreeItem } from './TreeItem';
 
@@ -17,9 +17,9 @@ export const Tree: FC<TreeProps> = ({ item, paddingLeft = 0, onClick, onContextM
     
     const [state, setState] = useState<TreeInterface>(item);
     state.isSelected = itemIdSelected === item.itemId;
-    /* useEffect(() => {
+    useEffect(() => {
         setState(item);
-    }, [item]); */
+    }, [item]);
 
     return (<>
         <TreeItem
