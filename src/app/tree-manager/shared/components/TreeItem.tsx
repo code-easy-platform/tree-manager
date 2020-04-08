@@ -10,10 +10,10 @@ interface ItemTreeProps {
     isUseDrag: boolean;
     paddingLeft: number;
     itemTree: TreeInterface;
-    onSelect(itemTreeId: string | undefined, event: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
-    onDoubleClick(itemTreeId: string | undefined, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
-    onContextMenu(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     onDropItem(targetItemId: string | undefined, dropppedItemId: string | undefined, droppedItemProps: any): void;
+    onSelect(itemTreeId: string | undefined, event: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
+    onContextMenu(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
+    onDoubleClick(itemTreeId: string | undefined, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
 export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, onContextMenu, onDoubleClick, onDropItem, isUseDrag, isUseDrop }) => {
 
@@ -63,7 +63,7 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onSelect, o
             onDoubleClick={e => { onDoubleClick(itemTree.itemId, itemTree, e) }}
         >
             <div className="item" style={{ paddingLeft: `${paddingLeft}px` }}>
-                {(itemTree.itemType === TreeItensTypes.folder && itemTree.itemChilds.length > 0) &&
+                {(itemTree.itemType === TreeItensTypes.folder || itemTree.itemChilds.length > 0) &&
                     <Icon iconName={itemTree.nodeExpanded ? "btn-collapse-folder" : "btn-expand-folder"} />
                 }
                 {(itemTree.itemType === TreeItensTypes.file && itemTree.itemChilds.length === 0) &&
