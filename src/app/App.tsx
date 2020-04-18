@@ -6,91 +6,92 @@ import { TreeManager } from './tree-manager/TreeManager';
 import './App.scss';
 
 const item: TreeInterface = {
-  itemId: "0",
-  itemLabel: "Item 01",
+  id: "0",
+  label: "Item 01",
   isSelected: false,
-  itemChilds: [
+  childs: [
     {
-      itemId: "1", itemLabel: "Item 02", isSelected: false, itemChilds: [
+      id: "1", label: "Item 02", isSelected: false, childs: [
         {
-          itemId: "2", itemLabel: "Item 01", isSelected: false, itemChilds: [
+          id: "2", label: "Item 01", isSelected: false, childs: [
             {
-              itemId: "3", itemLabel: "Item 01", isSelected: false, itemChilds: [
+              id: "3", label: "Item 01", isSelected: false, childs: [
                 {
-                  itemId: "4", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                  id: "4", label: "Item 01", isSelected: false, childs: [
                     {
-                      itemId: "5", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                      id: "5", label: "Item 01", isSelected: false, childs: [
                         {
-                          itemId: "6", itemLabel: "Item 03", isSelected: false, itemChilds: [
+                          id: "6", label: "Item 03", isSelected: false, childs: [
                             {
-                              itemId: "7", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                              id: "7", label: "Item 01", isSelected: false, childs: [
                                 {
-                                  itemId: "8", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                  id: "8", label: "Item 01", isSelected: false, childs: [
                                     {
-                                      itemId: "9", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                      id: "9", label: "Item 01", isSelected: false, childs: [
                                         {
-                                          itemId: "10", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                          id: "10", label: "Item 01", isSelected: false, childs: [
                                             {
-                                              itemId: "11", itemLabel: "Item 04", isSelected: false, itemChilds: [
+                                              id: "11", label: "Item 04", isSelected: false, childs: [
                                                 {
-                                                  itemId: "12", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                  id: "12", label: "Item 01", isSelected: false, childs: [
                                                     {
-                                                      itemId: "13", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                      id: "13", label: "Item 01", isSelected: false, childs: [
                                                         {
-                                                          itemId: "14", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                          id: "14", label: "Item 01", isSelected: false, childs: [
                                                             {
-                                                              itemId: "15", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                              id: "15", label: "Item 01", isSelected: false, childs: [
                                                                 {
-                                                                  itemId: "16", itemLabel: "Item 05", isSelected: false, itemChilds: [
+                                                                  id: "16", label: "Item 05", isSelected: false, childs: [
                                                                     {
-                                                                      itemId: "17", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                                      id: "17", label: "Item 01", isSelected: false, childs: [
                                                                         {
-                                                                          itemId: "18", itemLabel: "Item 01", isSelected: false, itemChilds: [
+                                                                          id: "18", label: "Item 01", isSelected: false, childs: [
                                                                             {
-                                                                              itemId: "19", itemLabel: "Item 01", isSelected: false, itemChilds: [
-                                                                                { itemId: "20", itemLabel: "Item 01", isSelected: false, itemChilds: [], itemType: TreeItensTypes.folder, nodeExpanded: false }
-                                                                              ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                                              id: "19", label: "Item 01", isSelected: false, childs: [
+                                                                                { id: "20", label: "Item 01", isSelected: false, childs: [], type: TreeItensTypes.folder, nodeExpanded: false }
+                                                                              ], type: TreeItensTypes.folder, nodeExpanded: false
                                                                             }
-                                                                          ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                                          ], type: TreeItensTypes.folder, nodeExpanded: false
                                                                         }
-                                                                      ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                                      ], type: TreeItensTypes.folder, nodeExpanded: false
                                                                     }
-                                                                  ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                                  ], type: TreeItensTypes.folder, nodeExpanded: false
                                                                 },
-                                                              ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                              ], type: TreeItensTypes.folder, nodeExpanded: false
                                                             }
-                                                          ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                          ], type: TreeItensTypes.folder, nodeExpanded: false
                                                         }
-                                                      ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                      ], type: TreeItensTypes.folder, nodeExpanded: false
                                                     }
-                                                  ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                                  ], type: TreeItensTypes.folder, nodeExpanded: false
                                                 }
-                                              ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                              ], type: TreeItensTypes.folder, nodeExpanded: false
                                             },
-                                          ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                          ], type: TreeItensTypes.folder, nodeExpanded: false
                                         }
-                                      ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                      ], type: TreeItensTypes.folder, nodeExpanded: false
                                     }
-                                  ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                                  ], type: TreeItensTypes.folder, nodeExpanded: false
                                 }
-                              ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                              ], type: TreeItensTypes.folder, nodeExpanded: false
                             }
-                          ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                          ], type: TreeItensTypes.folder, nodeExpanded: false
                         },
-                      ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                      ], type: TreeItensTypes.folder, nodeExpanded: false
                     }
-                  ], itemType: TreeItensTypes.folder, nodeExpanded: false
+                  ], type: TreeItensTypes.folder, nodeExpanded: false
                 }
-              ], itemType: TreeItensTypes.folder, nodeExpanded: false
+              ], type: TreeItensTypes.folder, nodeExpanded: false
             }
-          ], itemType: TreeItensTypes.folder, nodeExpanded: false
+          ], type: TreeItensTypes.folder, nodeExpanded: false
         }
-      ], itemType: TreeItensTypes.folder, nodeExpanded: false
+      ], type: TreeItensTypes.folder, nodeExpanded: false, isDisabledSelect: true
     },
-    { itemId: "21", itemLabel: "Item 03", isSelected: false, itemChilds: [], itemType: TreeItensTypes.file, nodeExpanded: false },
-    { itemId: "22", itemLabel: "Item 04", isSelected: false, itemChilds: [], itemType: TreeItensTypes.file, nodeExpanded: false },
+    { id: "21", label: "Item 03", isSelected: false, childs: [], type: TreeItensTypes.file, nodeExpanded: false, isDisabledDrag: false, isDisabledSelect: true },
+    { id: "22", label: "Item 04", isSelected: false, childs: [], type: TreeItensTypes.file, nodeExpanded: false,
+    isDisabledDrag: true, isDisabledDrop: true, isDisabledSelect: false, hasError: true },
   ],
-  itemType: TreeItensTypes.folder,
+  type: TreeItensTypes.folder,
   nodeExpanded: false
 };
 
@@ -109,11 +110,14 @@ const App: FC = () => {
               console.log(targetId);
               console.log(droppedId);
               console.log(droppedItem);
+
+              if (false)
+                setState(state);
             }}
             itemBase={state.item}
-            onClick={(id: string) => { /* alert(id)  */ }}
-            onContextMenu={(itemId, e) => { e.preventDefault() }}
-            onDoubleClick={(itemId, item, e) => { alert(itemId) }}
+            onClick={(id: string) => { console.log(id) }}
+            onContextMenu={(id, e) => { e.preventDefault() }}
+            onDoubleClick={(id, item, e) => { console.log(id) }}
           />
 
         </div>

@@ -19,17 +19,41 @@
   background-color: #1f724340;
 }
 
+.disabled {
+  background-color: unset;
+  opacity: 0.5;
+}
+
+.disabled:hover {
+  background-color: unset;
+  opacity: 0.5;
+}
+.dragging {
+  border-radius: 50px;
+  width: fit-content;
+}
+.dragging-over {
+  background-color: #2b78a530!important;
+  border-radius: 50px!important;
+  width: fit-content!important;
+}
+
+.text-underline-error {
+  text-decoration: underline wavy red;
+}
+
+
 html,
 body,
 #root,
 .App {
-  font-family: Segoe UI, "Courier New", monospace;
-  // background-color: $color-background;
+  font-family: var(--font-family-vs-code);
+  background-color: $color-background;
+  height: $size-window-vh-fill;
+  width: $size-window-vw-fill;
   overflow: hidden;
   color: white;
-  height: 100vh;
   display: flex;
-  width: 100vw;
 }
 
 div {
@@ -86,12 +110,12 @@ a:active {
 
 .btn {
   background: $color-background-propertie-editor;
-  border: $size-none solid $color-white;
   color: $font-color-input-propertie-editor;
+  font-family: var(--font-family-vs-code);
+  border: $size-none solid $color-white;
   padding: $size-0-5;
   padding-left: $size-1-5;
   padding-right: $size-1-5;
-  font-family: $font-family-normal;
   cursor: pointer;
 }
 
@@ -130,6 +154,18 @@ a:active {
   padding-right: $size-1-5;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .input-fill {
   width: -webkit-fill-available;
 }
@@ -157,4 +193,11 @@ a:active {
 
 .mini-scroll-bar::-webkit-scrollbar {
   width: $size-x-scroll-bar-small;
+}
+
+
+.hr-default {
+  background-color: var(--color-background);
+  height: var(--border-size-1);
+  border: none;
 }
