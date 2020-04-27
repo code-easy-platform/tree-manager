@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { TreeItensTypes } from './tree-manager/shared/models/TreeItensTypes';
 import { TreeInterface } from './tree-manager/shared/models/TreeInterface';
 import { TreeManager } from './tree-manager/TreeManager';
-import './App.scss';
+import './App.css';
 
 const item: TreeInterface = {
   id: "0",
@@ -83,13 +83,12 @@ const item: TreeInterface = {
                 }
               ], type: TreeItensTypes.folder, nodeExpanded: false
             }
-          ], type: TreeItensTypes.folder, nodeExpanded: false
+          ], type: TreeItensTypes.folder, nodeExpanded: false, isDisabledSelect: true,
         }
-      ], type: TreeItensTypes.folder, nodeExpanded: false, isDisabledSelect: true
+      ], type: TreeItensTypes.folder, nodeExpanded: false,  isAllowedToggleNodeExpand: true, isDisabledSelect: false
     },
     { id: "21", label: "Item 03", isSelected: false, childs: [], type: TreeItensTypes.file, nodeExpanded: false, isDisabledDrag: false, isDisabledSelect: true },
-    { id: "22", label: "Item 04", isSelected: false, childs: [], type: TreeItensTypes.file, nodeExpanded: false,
-    isDisabledDrag: true, isDisabledDrop: true, isDisabledSelect: false, hasError: true },
+    { id: "22", label: "Item 04", isSelected: false, childs: [], type: TreeItensTypes.file, nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabledSelect: false, hasError: true },
   ],
   type: TreeItensTypes.folder,
   nodeExpanded: false
