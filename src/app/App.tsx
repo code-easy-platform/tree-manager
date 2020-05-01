@@ -1,19 +1,21 @@
 import React, { FC } from 'react';
 
 import { TreeInterface } from './tree-manager/shared/models/TreeInterface';
+import action from './tree-manager/shared/icons/action.png';
 import { TreeManager } from './tree-manager/TreeManager';
 import './App.css';
 
 const itensBase: TreeInterface[] = [
   {
     id: "0",
+    icon: action,
     label: "Item 01",
     isSelected: false,
     isDisabledSelect: true,
     canDropList: ['ITEM'],
     childs: [
       {
-        id: "1", label: "Item 02", isSelected: false, canDropList: ['ITEM'], childs: [
+        id: "1", label: "Item 02", isSelected: true, canDropList: ['ITEM'], childs: [
           {
             id: "2", label: "Item 01", isSelected: false, canDropList: ['ITEM'], childs: [
               {
@@ -121,9 +123,10 @@ const App: FC = () => {
             isUseDrop={true}
             itens={itensBase}
             onFocus={e => { console.log(e) }}
+            onKeyDown={e => { console.log(e) }}
             onClick={(id: string) => { console.log(id) }}
-            onContextMenu={(id, e) => { e.preventDefault() }}
             onDoubleClick={(id, item, e) => { console.log(id) }}
+            onContextMenu={(id, e) => { e.preventDefault(); console.log(id); console.log(e) }}
             onDropItem={(targetId, droppedId, droppedItem) => {
               console.log(targetId);
               console.log(droppedId);
