@@ -15,7 +15,7 @@ const itensBase: TreeInterface[] = [
     canDropList: ['ITEM'],
     childs: [
       {
-        id: "1", label: "Item 02", isSelected: true, canDropList: ['ITEM'], childs: [
+        id: "1", label: "Item 02", isSelected: true, isEditing: true, canDropList: ['ITEM'], childs: [
           {
             id: "2", label: "Item 01", isSelected: false, canDropList: ['ITEM'], childs: [
               {
