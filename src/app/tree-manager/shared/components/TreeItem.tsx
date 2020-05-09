@@ -5,6 +5,10 @@ import img_tree_item_preview from './TreeItemPreview.svg';
 import { TreeInterface } from '../models/TreeInterface';
 import { Icon } from './icon/icon';
 
+import icon_collepsed from './../../shared/icons/icon-collapsed.png';
+import icon_expanded from './../../shared/icons/icon-expanded.png';
+
+
 interface ItemTreeProps {
     isUseDrop: boolean;
     isUseDrag: boolean;
@@ -75,16 +79,15 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onExpandNod
             <div
                 key={itemTree.id}
                 style={{ paddingLeft: `${paddingLeft}px`, color: hasError ? 'var(--main-error-color)' : '' }}
-                className={`item${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
+                className={`flex-itens-center item${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
             >
-                {(itemTree.childs.length > 0) &&
-                    <Icon
-                        onClick={isAllowedToggleNodeExpand ? ((e: any) => onExpandNode(itemTree.id, e)) : undefined}
-                        iconName={itemTree.nodeExpanded ? "btn-collapse-folder" : "btn-expand-folder"}
-                    />
-                }
-                <Icon show={icon !== undefined} icon={icon} />
-                {(itemTree.childs.length === 0) && <Icon />}
+                <Icon
+                    show={itemTree.childs.length > 0}
+                    icon={itemTree.nodeExpanded ? icon_expanded : icon_collepsed}
+                    iconName={itemTree.nodeExpanded ? "btn-collapse-folder" : "btn-expand-folder"}
+                    onClick={isAllowedToggleNodeExpand ? ((e: any) => onExpandNode(itemTree.id, e)) : undefined}
+                />
+                <Icon show={icon !== undefined} icon={icon} iconName="Aux icon" />
                 {itemTree.label}
             </div>
         </div>

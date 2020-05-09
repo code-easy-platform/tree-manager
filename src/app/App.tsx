@@ -1,20 +1,23 @@
 import React, { FC } from 'react';
 
 import { TreeInterface } from './tree-manager/shared/models/TreeInterface';
-import action from './tree-manager/shared/icons/action.png';
 import { TreeManager } from './tree-manager/TreeManager';
 import './App.css';
+
+import action from './tree-manager/shared/icons/action.png';
 
 const itensBase: TreeInterface[] = [
   {
     id: "0",
     icon: action,
+    type: 'ITEM',
     label: "Item 01",
     isSelected: false,
-    isDisabledSelect: true,
+    nodeExpanded: false,
     canDropList: ['ITEM'],
+    isDisabledSelect: true,
     childs: [
-      {
+      /* {
         id: "1", label: "Item 02", isSelected: true, isEditing: true, canDropList: ['ITEM'], childs: [
           {
             id: "2", label: "Item 01", isSelected: false, canDropList: ['ITEM'], childs: [
@@ -90,15 +93,14 @@ const itensBase: TreeInterface[] = [
             ], type: 'ITEM', nodeExpanded: false, isDisabled: true,
           }
         ], type: 'ITEM', nodeExpanded: false, isAllowedToggleNodeExpand: true, isDisabled: false
-      },
-      { id: "21", label: "Item 03", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: false, isDisabled: true },
-      { id: "22", label: "Item 04", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
-    ],
-    type: 'ITEM',
-    nodeExpanded: false
+      }, */
+      { id: "21", icon: action, label: "Item 03", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: false, isDisabled: true },
+      { id: "22", icon: action, label: "Item 04", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
+    ]
   },
   {
     id: "0",
+    type: 'ITEM',
     label: "Item 01",
     isSelected: false,
     nodeExpanded: false,
@@ -108,7 +110,6 @@ const itensBase: TreeInterface[] = [
       { id: "30", label: "Item 30", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: false, isDisabled: true },
       { id: "31", label: "Item 31", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
     ],
-    type: 'ITEM',
   }
 ];
 
