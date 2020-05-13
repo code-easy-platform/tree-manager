@@ -90,7 +90,7 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, onExpandNod
             <DragPreviewImage connect={preview} src={img_tree_item_preview} />
             <div
                 key={itemTree.id}
-                style={{ padding: icon !== undefined ? 0 : 5, paddingLeft: `${paddingLeft + (itemTree.childs.length === 0 ? 25 : 0)}px`, color: hasError ? 'var(--main-error-color)' : '' }}
+                style={{ padding: icon !== undefined ? undefined : 5, paddingLeft: `${paddingLeft + (itemTree.childs.length === 0 ? 25 : 0)}px`, color: hasError ? 'var(--main-error-color)' : '' }}
                 className={`flex-itens-center item${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
             >
                 <Icon
