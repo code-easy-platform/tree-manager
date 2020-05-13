@@ -123,16 +123,12 @@ const App: FC = () => {
             isUseDrag={true}
             isUseDrop={true}
             itens={itensBase}
-            onFocus={e => { console.log(e) }}
-            onKeyDown={e => { console.log(e) }}
-            onClick={(id: string) => { console.log(id) }}
-            onDoubleClick={(id, item, e) => { console.log(id) }}
+            onFocus={console.log}
+            onClick={console.log}
+            onKeyDown={console.log}
+            onDropItem={console.log}
+            onDoubleClick={console.log}
             onContextMenu={(id, e) => { e.preventDefault(); console.log(id); console.log(e) }}
-            onDropItem={(targetId, droppedId, droppedItem) => {
-              console.log(targetId);
-              console.log(droppedId);
-              console.log(droppedItem);
-            }}
           />
 
         </div>
