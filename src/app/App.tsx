@@ -14,8 +14,10 @@ const itensBase: TreeInterface[] = [
     label: "Item 01",
     isSelected: false,
     nodeExpanded: false,
+    showExpandIcon: false,
     canDropList: ['ITEM'],
     isDisabledSelect: true,
+    useCustomIconToExpand: true,
     childs: [
       /* {
         id: "1", label: "Item 02", isSelected: true, isEditing: true, canDropList: ['ITEM'], childs: [
@@ -127,8 +129,9 @@ const App: FC = () => {
             onClick={console.log}
             onKeyDown={console.log}
             onDropItem={console.log}
+            onExpandNode={console.log}
             onDoubleClick={console.log}
-            onContextMenu={(id, e) => { e.preventDefault(); console.log(id); console.log(e) }}
+            onContextMenu={console.log}
           />
 
         </div>
