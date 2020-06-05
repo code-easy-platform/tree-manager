@@ -119,7 +119,7 @@ const App: FC = () => {
   return (
     <div className="App">
       <div style={{ justifyContent: "center", flex: 1, display: "flex", }}>
-        <div style={{ width: 300, height: 500, alignSelf: "center", backgroundColor: "#1E1E1E", flexDirection: "column" }}>
+        <div style={{ width: 300, height: 500, alignSelf: "center", backgroundColor: "#1E1E1E", flexDirection: "column", boxShadow: 'black 0px 0px 20px' }}>
 
           <TreeManager
             isUseDrag={true}

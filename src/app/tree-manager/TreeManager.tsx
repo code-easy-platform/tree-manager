@@ -9,6 +9,7 @@ import './TreeManager.css';
 interface TreeManagerProps {
     isUseDrop?: boolean;
     isUseDrag?: boolean;
+    emptyMessage?: string;
     itens: TreeInterface[];
     onFocus?(e: React.FocusEvent<HTMLDivElement>): void;
     onKeyDown?(e: React.FocusEvent<HTMLDivElement>): void;
@@ -18,7 +19,7 @@ interface TreeManagerProps {
     onExpandNode?(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     onDoubleClick?(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeManager: FC<TreeManagerProps> = ({ itens, onClick, onFocus, onKeyDown, onContextMenu, onDoubleClick, onExpandNode = () => { }, onDropItem = () => { }, isUseDrag = false, isUseDrop = false }) => {
+export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, onClick, onFocus, onKeyDown, onContextMenu, onDoubleClick, onExpandNode = () => { }, onDropItem = () => { }, isUseDrag = false, isUseDrop = false }) => {
 
     const [clickedId, setClickedId] = useState("");
     useEffect(() => {
@@ -39,29 +40,32 @@ export const TreeManager: FC<TreeManagerProps> = ({ itens, onClick, onFocus, onK
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div
-                tabIndex={0}
-                onFocus={onFocus}
-                className="tree-base"
-                onKeyDown={(e: any) => onKeyDown && onKeyDown(e)}
-            >
-                {itens.map((item, index) => (
-                    <Tree
-                        key={index}
-                        item={item}
-                        paddingLeft={5}
-                        onClick={click}
-                        isUseDrag={isUseDrag}
-                        isUseDrop={isUseDrop}
-                        onDropItem={onDropItem}
-                        itemIdSelected={clickedId}
-                        onExpandNode={onExpandNode}
-                        onContextMenu={onContextMenu}
-                        onDoubleClick={onDoubleClick}
-                    />
-                ))}
-                <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: 100 }} />
-            </div>
+            {itens.length > 0 &&
+                <div
+                    tabIndex={0}
+                    onFocus={onFocus}
+                    className="tree-base"
+                    onKeyDown={(e: any) => onKeyDown && onKeyDown(e)}
+                >
+                    {itens.map((item, index) => (
+                        <Tree
+                            key={index}
+                            item={item}
+                            paddingLeft={5}
+                            onClick={click}
+                            isUseDrag={isUseDrag}
+                            isUseDrop={isUseDrop}
+                            onDropItem={onDropItem}
+                            itemIdSelected={clickedId}
+                            onExpandNode={onExpandNode}
+                            onContextMenu={onContextMenu}
+                            onDoubleClick={onDoubleClick}
+                        />
+                    ))}
+                    <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: 100 }} />
+                </div>
+            }
+            {emptyMessage && <div className="flex1 flex-itens-center opacity-3 padding-horizontal-g flex-content-center">{emptyMessage}</div>}
         </DndProvider>
     );
 
