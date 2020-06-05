@@ -11,6 +11,7 @@ interface TreeManagerProps {
     isUseDrag?: boolean;
     emptyMessage?: string;
     itens: TreeInterface[];
+    showEmptyMessage?: boolean;
     onFocus?(e: React.FocusEvent<HTMLDivElement>): void;
     onKeyDown?(e: React.FocusEvent<HTMLDivElement>): void;
     onDropItem?(targetItemId: string, dropppedItemId: string, droppedItemProps: any): void;
@@ -19,7 +20,7 @@ interface TreeManagerProps {
     onExpandNode?(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     onDoubleClick?(itemTreeId: string, item: TreeInterface, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, onClick, onFocus, onKeyDown, onContextMenu, onDoubleClick, onExpandNode = () => { }, onDropItem = () => { }, isUseDrag = false, isUseDrop = false }) => {
+export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, showEmptyMessage, onClick, onFocus, onKeyDown, onContextMenu, onDoubleClick, onExpandNode = () => { }, onDropItem = () => { }, isUseDrag = false, isUseDrop = false }) => {
 
     const [clickedId, setClickedId] = useState("");
     useEffect(() => {
@@ -63,10 +64,10 @@ export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, onClick
                         />
                     ))
                 }
-                {(emptyMessage && itens.length === 0) && <div className="flex1 flex-itens-center opacity-3 padding-horizontal-g flex-content-center">{emptyMessage}</div>}
-                {itens.length > 0 && <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: 100 }} />}
+                <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: showEmptyMessage ? undefined : 100 }}>
+                    {((emptyMessage && itens.length === 0) || showEmptyMessage) && <div className="flex1 flex-itens-center opacity-3 padding-horizontal-g flex-content-center">{emptyMessage}</div>}
+                </div>
             </div>
         </DndProvider>
     );
-
 }

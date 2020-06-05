@@ -125,6 +125,7 @@ const App: FC = () => {
             isUseDrag={true}
             isUseDrop={true}
             itens={itensBase}
+            showEmptyMessage={true}
             onFocus={console.log}
             onClick={console.log}
             onKeyDown={console.log}
