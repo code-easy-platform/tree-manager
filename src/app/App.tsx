@@ -132,6 +132,7 @@ const App: FC = () => {
             onExpandNode={console.log}
             onDoubleClick={console.log}
             onContextMenu={console.log}
+            emptyMessage={"Right click here to add features"}
           />
 
         </div>

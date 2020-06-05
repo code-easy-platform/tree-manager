@@ -40,14 +40,14 @@ export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, onClick
 
     return (
         <DndProvider backend={HTML5Backend}>
-            {itens.length > 0 &&
-                <div
-                    tabIndex={0}
-                    onFocus={onFocus}
-                    className="tree-base"
-                    onKeyDown={(e: any) => onKeyDown && onKeyDown(e)}
-                >
-                    {itens.map((item, index) => (
+            <div
+                tabIndex={0}
+                onFocus={onFocus}
+                className="tree-base"
+                onKeyDown={(e: any) => onKeyDown && onKeyDown(e)}
+            >
+                {itens.length > 0 &&
+                    itens.map((item, index) => (
                         <Tree
                             key={index}
                             item={item}
@@ -61,11 +61,11 @@ export const TreeManager: FC<TreeManagerProps> = ({ itens, emptyMessage, onClick
                             onContextMenu={onContextMenu}
                             onDoubleClick={onDoubleClick}
                         />
-                    ))}
-                    <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: 100 }} />
-                </div>
-            }
-            {emptyMessage && <div className="flex1 flex-itens-center opacity-3 padding-horizontal-g flex-content-center">{emptyMessage}</div>}
+                    ))
+                }
+                {(emptyMessage && itens.length === 0) && <div className="flex1 flex-itens-center opacity-3 padding-horizontal-g flex-content-center">{emptyMessage}</div>}
+                {itens.length > 0 && <div onContextMenu={e => onContextMenu && onContextMenu(undefined, e)} className="flex1" style={{ paddingBottom: 100 }} />}
+            </div>
         </DndProvider>
     );
 
