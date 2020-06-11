@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
+import { IconAction } from 'code-easy-components';
 
 import { TreeInterface } from './tree-manager/shared/models/TreeInterface';
 import { TreeManager } from './tree-manager/TreeManager';
 import './App.css';
 
-import action from './tree-manager/shared/icons/action.png';
-
 const itensBase: TreeInterface[] = [
   {
     id: "0",
-    icon: action,
+    icon: IconAction,
     type: 'ITEM',
     label: "Item 01",
     isSelected: false,
@@ -96,8 +95,8 @@ const itensBase: TreeInterface[] = [
           }
         ], type: 'ITEM', nodeExpanded: false, isAllowedToggleNodeExpand: true, isDisabled: false
       },
-      { id: "21", icon: action, label: "Item 03", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: false, isDisabled: true },
-      { id: "22", icon: action, label: "Item 04", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
+      { id: "21", icon: IconAction, label: "Item 03", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: false, isDisabled: true },
+      { id: "22", icon: IconAction, label: "Item 04", isSelected: false, canDropList: ['ITEM'], childs: [], type: 'ITEM', nodeExpanded: false, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
     ]
   },
   {
