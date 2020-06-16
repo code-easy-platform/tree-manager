@@ -111,7 +111,7 @@ export const TreeItem: FC<ItemTreeProps> = ({ itemTree, paddingLeft, style, onEx
                 />
                 <Icon
                     icon={icon}
-                    iconSize={iconSize}
+                    iconSize={iconSize+5}
                     show={icon !== undefined}
                     iconName={itemTree.label}
                     onClick={(useCustomIconToExpand && isAllowedToggleNodeExpand) ? ((e: any) => onExpandNode(itemTree.id, e)) : undefined}

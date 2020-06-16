@@ -83,7 +83,7 @@
   flex: 1;
 }
 .empty-message .message {
-  justify-items: center;
+  justify-content: center;
   align-items: center;
   padding-right: 4px;
   padding-left: 4px;
