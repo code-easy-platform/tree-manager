@@ -15,7 +15,9 @@ const itensBase: TreeInterface[] = [
     nodeExpanded: false,
     showExpandIcon: false,
     canDropList: ['ITEM'],
+    isDisabledClick: true,
     isDisabledSelect: true,
+    isDisabledDoubleClick: true,
     useCustomIconToExpand: true,
     childs: [
       {
@@ -123,11 +125,11 @@ const App: FC = () => {
           <TreeManager
             isUseDrag={true}
             isUseDrop={true}
-            itens={itensBase}
-            showEmptyMessage={true}
+            items={itensBase}
             onFocus={console.log}
             onClick={console.log}
             onKeyDown={console.log}
+            showEmptyMessage={true}
             onDropItem={console.log}
             onExpandNode={console.log}
             onDoubleClick={console.log}
