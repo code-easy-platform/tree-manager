@@ -28,9 +28,9 @@ export interface ITreeItem {
      */
     isEditing?: boolean;
     /**
-     * Items that will be displayed when the current item's node is expanded
+     * Used to be found by the item that comes before, your igniter.
      */
-    childs: ITreeItem[];
+    ascendantId: string | undefined;
     /**
      * Indicates that the current element is being selected
      */

@@ -1,15 +1,16 @@
 import React from 'react';
 
 import { ITreeManagerProps, ITreeManagerEvents } from './shared/interfaces';
-import { EmptyFeedback } from './components';
-import { useConfigs } from './shared/hooks';
+import { useConfigs, useItems } from './shared/hooks';
+import { EmptyFeedback, Tree } from './components';
 import './TreeManagerBase.css';
 
-interface TreeManagerBaseProps extends ITreeManagerProps, ITreeManagerEvents {
+interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, ITreeManagerEvents {
 
 }
-export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ items, childrenWhenEmpty, onFocus, onContextMenu, onKeyDown }) => {
+export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEmpty, onFocus, onContextMenu, onKeyDown }) => {
     const { showEmptyMessage } = useConfigs();
+    const { baseItems } = useItems();
 
     return (
         <div
@@ -18,11 +19,18 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ items, childre
             onKeyDown={onKeyDown}
             className={"tree-base"}
         >
-
+            {baseItems.length > 0 &&
+                baseItems.map((item, index) => (
+                    <Tree
+                        key={index}
+                        item={item}
+                    />
+                ))
+            }
             <EmptyFeedback
                 children={childrenWhenEmpty}
                 onContextMenu={e => onContextMenu && onContextMenu(undefined, e)}
-                show={!!((childrenWhenEmpty && items.length === 0) || showEmptyMessage)}
+                show={!!((childrenWhenEmpty && baseItems.length === 0) || showEmptyMessage)}
             />
         </div>
     );
