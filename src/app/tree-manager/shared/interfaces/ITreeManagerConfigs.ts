@@ -10,11 +10,11 @@ export interface ITreeManagerConfigs {
     /**
      * Text color of the item that has the property hasError = true
      */
-    hasErrorItemBackgroundColor?: string,
+    hasErrorItemTextColor?: string,
     /**
      * Text color of the item that has the property hasWarning = true
      */
-    hasWarningItemBackgroundColor?: string,
+    hasWarningItemTextColor?: string,
     /**
      * Enabled to drop items on this item
      */

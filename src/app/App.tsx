@@ -129,7 +129,6 @@ const App: FC = () => {
               isUseDrag: true,
               isUseDrop: true,
               showEmptyMessage: true,
-
             }}
             items={itensBase}
             onFocus={console.log}
@@ -139,7 +138,7 @@ const App: FC = () => {
             onExpandNode={console.log}
             onDoubleClick={console.log}
             onContextMenu={console.log}
-            childrenWhenEmpty={"Right click here to add features"}
+            // childrenWhenEmpty={"Right click here to add features"}
           />
 
         </div>
