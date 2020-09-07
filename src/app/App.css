@@ -1,6 +1,7 @@
 * {
-  -webkit-user-select: none;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   -moz-user-select: -moz-none;
+  -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   outline: none;

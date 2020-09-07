@@ -1,0 +1,40 @@
+:root {
+    --selected-item-color: #1f724340;
+    --editing-item-color: #1f724320;
+}
+
+/* Estiliza a base da árvore*/
+
+.tree-base {
+    flex-direction: column;
+    overflow: auto;
+    flex: 1;
+}
+
+.tree-base:focus {
+    outline: none;
+}
+
+.tree-base::-webkit-scrollbar {
+    width: 10px;
+}
+
+.tree-base::-webkit-scrollbar-thumb {
+    background-color: #ffffff10;
+}
+
+.tree-base:hover::-webkit-scrollbar-thumb {
+    background-color: #ffffff40;
+}
+
+.tree-base::-webkit-scrollbar-thumb:hover {
+    background-color: #ffffff50;
+}
+
+.tree-base::-webkit-scrollbar-thumb:active {
+    background-color: #ffffff70;
+}
+
+.tree-base::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
