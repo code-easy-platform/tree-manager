@@ -22,7 +22,7 @@ export interface ITreeItem {
     /**
      * Leaves item text in yellow to indicate an error
      */
-    hasWarning: boolean;
+    hasWarning?: boolean;
     /**
      * Indicates that the current feature is being edited
      */
@@ -30,7 +30,7 @@ export interface ITreeItem {
     /**
      * Used to be found by the item that comes before, your igniter.
      */
-    ascendantId: string | undefined;
+    ascendantId?: string;
     /**
      * Indicates that the current element is being selected
      */

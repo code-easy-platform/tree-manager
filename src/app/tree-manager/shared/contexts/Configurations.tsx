@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 import { ITreeManagerConfigs } from '../interfaces';
 
@@ -12,11 +12,22 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
     /** Default values from configs */
 
     // GENERAL
+    configs.showEmptyMessage = configs.showEmptyMessage || false
+
+    const setCSSVars = useCallback(() => {
+        document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#1f724360'}`);
+        document.documentElement.style.setProperty('--focused-item-color', `${configs.focusedItemBackgroundColor || '#1f724320'}`);
+        document.documentElement.style.setProperty('--editing-item-color', `${configs.editingItemBackgroundColor || '#1f724340'}`);
+        document.documentElement.style.setProperty('--warning-item-text-color', `${configs.warningTextColor || 'yellow'}`);
+        document.documentElement.style.setProperty('--error-item-text-color', `${configs.errorTextColor || 'red'}`);
+    }, [configs]);
+
 
     const [state, setState] = useState<IConfigurationContextData>({ configs });
     useEffect(() => {
         setState({ configs });
-    }, [configs]);
+        setCSSVars();
+    }, [configs, setCSSVars]);
 
     return (
         <ConfigurationContext.Provider value={state} >
