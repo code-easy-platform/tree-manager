@@ -1,5 +1,9 @@
 export interface ITreeManagerConfigs {
     /**
+     * When an item is dragged, a custom layer remains on the element. React DND Draglayer must be configured
+     */
+    customDragLayer?(item: React.ReactNode): React.ReactNode;
+    /**
      * Background color of the item that has focused
      */
     focusedItemBackgroundColor?: string,
@@ -20,6 +24,10 @@ export interface ITreeManagerConfigs {
      */
     warningTextColor?: string,
     /**
+     * Show empty message
+     */
+    showEmptyMessage?: boolean;
+    /**
      * Enabled to drop items on this item
      */
     isUseDrop?: boolean;
@@ -28,11 +36,7 @@ export interface ITreeManagerConfigs {
      */
     isUseDrag?: boolean;
     /**
-     * Show empty message
+     * Identifier
      */
-    showEmptyMessage?: boolean;
-    /**
-     * When an item is dragged, a custom layer remains on the element. React DND Draglayer must be configured
-     */
-    customDragLayer?(item: React.ReactNode): React.ReactNode;
+    id?: string | undefined;
 }

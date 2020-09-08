@@ -18,15 +18,15 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
     const radioItemRef = useRef<HTMLInputElement>(null);
 
     const {
-        disabledToDrop = [], onContextMenu,
-        id, label, isSelected, isEditing, isDisabled, canDropList,
-        icon, useCustomIconToExpand, iconSize, type, isDisabledDrop,
-        isAllowedToggleNodeExpand = true, paddingLeft, isDisabledDrag,
         showExpandIcon, nodeExpanded, description, hasError, hasWarning,
+        id, label, isSelected, isDisabled, canDropList, isDisabledClick,
+        disabledToDrop = [], onContextMenu, isDisabledDoubleClick, type,
+        icon, useCustomIconToExpand, iconSize, isDisabledDrop, isDisabledSelect,
+        isAllowedToggleNodeExpand = true, paddingLeft, isDisabledDrag, isEditing,
     } = props;
 
     const { expandItemById, changeAscById, selectItemById, editItemById } = useItems();
-    const { isUseDrag, isUseDrop, customDragLayer } = useConfigs();
+    const { isUseDrag, isUseDrop, id: treeIdentifier, customDragLayer } = useConfigs();
 
     const handleExpandNode = useCallback((e: React.MouseEvent<HTMLImageElement | HTMLInputElement, MouseEvent>) => {
         if (!isAllowedToggleNodeExpand) return;
@@ -54,27 +54,28 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
 
     /** Emits an event to identify which element was clicked. */
     const handleOnContext = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
         onContextMenu && onContextMenu(id, e);
     }, [id, onContextMenu]);
 
     // Emits an event to identify which element was clicked.
     const handleOnClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (isDisabled) return;
+        if (isDisabled || isDisabledClick) return;
 
         e.stopPropagation();
 
-        selectItemById(id, e.ctrlKey);        
-    }, [id, isDisabled, selectItemById]);
+        selectItemById(id, e.ctrlKey);
+    }, [id, isDisabled, isDisabledClick, selectItemById]);
 
     // Emits an event to identify which element was clicked.
     const handleOnDoubleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (isDisabled) return;
+        if (isDisabled || isDisabledDoubleClick) return;
 
         e.stopPropagation();
         e.preventDefault();
 
         editItemById(id);
-    }, [id, isDisabled, editItemById]);
+    }, [isDisabled, isDisabledDoubleClick, editItemById, id]);
 
     /** Permite que um elemento seja arrastado e dropado em outro lugar.. */
     const [{ isDragging }, dragRef, preview] = useDrag<IDroppableItem, any, any>({
@@ -122,9 +123,9 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
                 id={id}
                 type="radio"
                 ref={radioItemRef}
-                name="tree-item-name"
-                disabled={isDisabled}
                 onKeyDown={handleKeyDown}
+                disabled={isDisabled || isDisabledSelect}
+                name={"tree-item-name-" + treeIdentifier}
             />
             <label
                 htmlFor={id}

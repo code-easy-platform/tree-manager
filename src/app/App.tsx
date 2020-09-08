@@ -14,16 +14,17 @@ const App: FC = () => {
             configs={{
               isUseDrag: true,
               isUseDrop: true,
+              id: 'MinhaTree',
               showEmptyMessage: true,
               customDragLayer: (item) => (
                 <CustomDragLayer children={item} />
               )
             }}
             items={items}
-          // onChangeItems={console.log}
-          // onFocus={console.log}
-          // onKeyDown={console.log}
-          // onContextMenu={console.log}
+            // onChangeItems={console.log}
+            // onFocus={console.log}
+            // onKeyDown={console.log}
+            onContextMenu={console.log}
           // childrenWhenEmpty={"Right click here to add features"}
           />
 

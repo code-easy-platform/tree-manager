@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { ITreeManagerProps, ITreeManagerEvents } from './shared/interfaces';
 import { useConfigs, useItems } from './shared/hooks';
@@ -12,12 +12,18 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
     const { showEmptyMessage } = useConfigs();
     const { baseItems } = useItems();
 
+    const handleContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+        onContextMenu && onContextMenu(undefined, e);
+    }, [onContextMenu]);
+
     return (
         <div
             tabIndex={0}
             onFocus={onFocus}
             onKeyDown={onKeyDown}
             className={"tree-base"}
+            onContextMenu={handleContextMenu}
         >
             {baseItems.length > 0 && baseItems.map((item, index) => (
                 <Tree
@@ -28,7 +34,7 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
             ))}
             <EmptyFeedback
                 children={childrenWhenEmpty}
-                onContextMenu={e => onContextMenu && onContextMenu(undefined, e)}
+                onContextMenu={handleContextMenu}
                 show={!!((childrenWhenEmpty && baseItems.length === 0) || showEmptyMessage)}
             />
         </div>
