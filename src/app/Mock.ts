@@ -1,0 +1,31 @@
+import { ITreeItem } from "./tree-manager/shared/interfaces";
+import { IconAction, IconFolder } from 'code-easy-components';
+
+export const items: ITreeItem[] = [
+    { id: "0", label: "Item 01", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, icon: IconFolder, isDisabledClick: true, isDisabledSelect: true, isDisabledDoubleClick: true },
+    { id: "1", label: "Item 02", isSelected: true, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '0', hasWarning: true },
+    { id: "2", label: "Item 03", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '1', icon: IconAction },
+    { id: "3", label: "Item 04", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '2', icon: IconAction },
+    { id: "4", label: "Item 05", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '3', icon: IconAction },
+    { id: "5", label: "Item 06", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '4', icon: IconAction },
+    { id: "6", label: "Item 07", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '5', icon: IconAction },
+    { id: "7", label: "Item 08", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '6', icon: IconAction },
+    { id: "8", label: "Item 09", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '7', icon: IconAction },
+    { id: "9", label: "Item 10", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '8', icon: IconAction },
+    { id: "10", label: "Item 11", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '9', icon: IconAction },
+    { id: "11", label: "Item 12", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '10', icon: IconAction },
+    { id: "12", label: "Item 13", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '11', icon: IconAction },
+    { id: "13", label: "Item 14", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '12', icon: IconAction },
+    { id: "14", label: "Item 15", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '13', icon: IconAction },
+    { id: "15", label: "Item 16", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '14', icon: IconAction },
+    { id: "16", label: "Item 17", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '15', icon: IconAction },
+    { id: "17", label: "Item 18", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '16', icon: IconAction },
+    { id: "18", label: "Item 19", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '17', icon: IconAction },
+    { id: "19", label: "Item 20", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '18', icon: IconAction },
+    { id: "20", label: "Item 21", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '19', icon: IconAction, hasWarning: true },
+    { id: "21", label: "Item 22", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '20', icon: IconAction, isDisabledDrag: false, isDisabled: true },
+    { id: "22", label: "Item 23", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '21', icon: IconAction, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
+    { id: "23", label: "Item 24", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '22', icon: IconAction, isDisabledSelect: true },
+    { id: "30", label: "Item 30", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: undefined, icon: IconAction, description: 'Minha descrição de teste', isDisabledDrag: false, isDisabled: true, hasWarning: true },
+    { id: "31", label: "Item 31", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '30', icon: IconAction, isDisabledDrag: true, isDisabledDrop: true, isDisabled: false, hasError: true },
+];
