@@ -24,7 +24,7 @@ export interface ITreeManagerEvents {
     /**
      * event emitted when changes to items occur
      */
-    onChangeItems(items: ITreeItem[]): void;
+    onChangeItems?(items: ITreeItem[]): void;
 }
 
 export interface ITreeManagerProps {

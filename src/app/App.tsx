@@ -17,7 +17,7 @@ const App: FC = () => {
               showEmptyMessage: true,
             }}
             items={items}
-            onChangeItems={console.log}
+          // onChangeItems={console.log}
           // onFocus={console.log}
           // onKeyDown={console.log}
           // onContextMenu={console.log}
