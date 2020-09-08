@@ -21,3 +21,6 @@ export const TreeManager: React.FC<TreeManagerProps> = ({ configs, items, onChan
         </ConfigurationProvider>
     );
 }
+
+export { CustomDragLayer } from './components';
+export * from './shared/interfaces/ITreeItem';

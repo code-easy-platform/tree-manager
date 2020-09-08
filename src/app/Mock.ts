@@ -3,7 +3,7 @@ import { IconAction, IconFolder } from 'code-easy-components';
 
 export const items: ITreeItem[] = [
     { id: "0", label: "Item 01", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, icon: IconFolder, isDisabledClick: true, isDisabledSelect: true, isDisabledDoubleClick: true },
-    { id: "1", label: "Item 02", isSelected: true, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '0', icon: IconAction, hasWarning: true },
+    { id: "1", label: "Item 02", isSelected: true, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '0', hasWarning: true },
     { id: "2", label: "Item 03", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '1', icon: IconAction },
     { id: "3", label: "Item 04", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '2', icon: IconAction },
     { id: "4", label: "Item 05", isSelected: false, canDropList: ['ITEM'], type: 'ITEM', nodeExpanded: false, ascendantId: '3', icon: IconAction },

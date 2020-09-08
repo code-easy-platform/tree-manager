@@ -153,8 +153,8 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
                 customDragLayer(<>
                     <Icon
                         icon={icon}
+                        iconSize={12}
                         iconName={label}
-                        iconSize={iconSize}
                         show={icon !== undefined}
                     />
                     {label}

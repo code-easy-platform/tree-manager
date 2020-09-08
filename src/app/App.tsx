@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { TreeManager } from './tree-manager';
+import { TreeManager, CustomDragLayer } from './tree-manager';
 import { items } from './Mock';
 import './App.css';
 
@@ -15,6 +15,9 @@ const App: FC = () => {
               isUseDrag: true,
               isUseDrop: true,
               showEmptyMessage: true,
+              customDragLayer: (item) => (
+                <CustomDragLayer children={item} />
+              )
             }}
             items={items}
           // onChangeItems={console.log}
