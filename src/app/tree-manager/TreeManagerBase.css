@@ -1,5 +1,5 @@
 :root {
-    --selected-item-color: #1f724360;
+    --selected-item-color: #1f724320;
     --focused-item-color: #1f724320;
     --editing-item-color: #1f724340;
     /*  */
@@ -82,10 +82,6 @@
     filter: brightness(0.6);
 }
 
-.tree-item.editing label {
-    background-color: var(--editing-item-color);
-}
-
 .tree-item.selected label {
     background-color: var(--selected-item-color);
 }
@@ -105,6 +101,12 @@
 
 .tree-item :checked:focus+label {
     background-color: var(--focused-item-color);
+}
+
+.tree-item.editing label,
+.tree-item.editing.selected label,
+.tree-item.editing.selected :checked:focus+label label {
+    background-color: var(--editing-item-color);
 }
 
 @keyframes animation-dragging-over {

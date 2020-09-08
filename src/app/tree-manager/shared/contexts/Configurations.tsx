@@ -15,7 +15,7 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
     configs.showEmptyMessage = configs.showEmptyMessage || false
 
     const setCSSVars = useCallback(() => {
-        document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#1f724360'}`);
+        document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#1f724320'}`);
         document.documentElement.style.setProperty('--focused-item-color', `${configs.focusedItemBackgroundColor || '#1f724320'}`);
         document.documentElement.style.setProperty('--editing-item-color', `${configs.editingItemBackgroundColor || '#1f724340'}`);
         document.documentElement.style.setProperty('--warning-item-text-color', `${configs.warningTextColor || 'yellow'}`);

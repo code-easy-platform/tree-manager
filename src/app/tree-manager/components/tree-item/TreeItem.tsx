@@ -67,6 +67,15 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
         selectItemById(id, e.ctrlKey);
     }, [id, isDisabled, isDisabledClick, selectItemById]);
 
+    // Emits an event to identify which element was focused.
+    const handleOnItemsFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+        if (isDisabled || isDisabledClick) return;
+
+        e.stopPropagation();
+
+        selectItemById(id, false);
+    }, [id, isDisabled, isDisabledClick, selectItemById]);
+
     // Emits an event to identify which element was clicked.
     const handleOnDoubleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (isDisabled || isDisabledDoubleClick) return;
@@ -117,13 +126,14 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
             onClick={handleOnClick}
             onContextMenu={handleOnContext}
             onDoubleClick={handleOnDoubleClick}
-            className={`tree-item${isDisabled ? ' disabled' : ''}${isSelected ? ' selected' : ''}${isEditing ? ' editing' : ''}${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
+            className={`tree-item${isDisabled ? ' disabled' : ''}${isEditing ? ' editing' : ''}${isSelected ? ' selected' : ''}${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
         >
             <input
                 id={id}
                 type="radio"
                 ref={radioItemRef}
                 onKeyDown={handleKeyDown}
+                onFocus={handleOnItemsFocus}
                 disabled={isDisabled || isDisabledSelect}
                 name={"tree-item-name-" + treeIdentifier}
             />

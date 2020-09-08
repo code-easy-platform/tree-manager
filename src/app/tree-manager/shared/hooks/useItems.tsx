@@ -70,11 +70,16 @@ export const useItems = () => {
         setItems(
             items.map(item => {
                 if (item.id === id) {
-                    item.isEditing = true;
+                    return {
+                        ...item,
+                        isEditing: true
+                    };
                 } else {
-                    item.isEditing = false;
+                    return {
+                        ...item,
+                        isEditing: false
+                    };
                 }
-                return item;
             })
         );
     }, [items, setItems]);
