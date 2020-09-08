@@ -27,6 +27,58 @@ export const useItems = () => {
         );
     }, [items, setItems]);
 
+    const selectItemById = useCallback((id: string | undefined, keepSelection?: boolean) => {
+        if (!id) return;
+
+        setItems(
+            items.map(item => {
+                if (keepSelection) {
+
+                    if (item.id === id) {
+                        item = {
+                            ...item,
+                            isSelected: true
+                        };
+                    } else {
+                        item = {
+                            ...item,
+                            isSelected: false
+                        };
+                    }
+
+                } else {
+                    if (item.id === id) {
+                        item = {
+                            ...item,
+                            isSelected: true
+                        };
+                    } else {
+                        item = {
+                            ...item,
+                            isSelected: false
+                        };
+                    }
+                }
+                return item;
+            })
+        );
+    }, [items, setItems]);
+
+    const editItemById = useCallback((id: string | undefined) => {
+        if (!id) return;
+
+        setItems(
+            items.map(item => {
+                if (item.id === id) {
+                    item.isEditing = true;
+                } else {
+                    item.isEditing = false;
+                }
+                return item;
+            })
+        );
+    }, [items, setItems]);
+
     const changeAscendentById = useCallback((id: string | undefined, targetId: string | undefined) => {
         if (!id && !targetId) return;
 
@@ -59,5 +111,13 @@ export const useItems = () => {
          * Expand item by id
          */
         expandItemById,
+        /**
+         * Select a item by id
+         */
+        selectItemById,
+        /**
+         * Edit a item by id
+         */
+        editItemById,
     }
 } 

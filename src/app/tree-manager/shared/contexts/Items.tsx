@@ -8,11 +8,12 @@ interface IContextData {
 }
 export const ItemsContext = createContext<IContextData>({} as IContextData);
 
-export const ItemsProvider: React.FC<{ items: ITreeItem[] }> = ({ children, items }) => {
+export const ItemsProvider: React.FC<{ items: ITreeItem[], onChange(items: ITreeItem[]): void; }> = ({ children, items, onChange }) => {
 
     const setItems = useCallback((items: ITreeItem[]) => {
         setState(items);
-    }, []);
+        onChange(items);
+    }, [onChange]);
 
     const [state, setState] = useState<ITreeItem[]>(items);
     useEffect(() => {

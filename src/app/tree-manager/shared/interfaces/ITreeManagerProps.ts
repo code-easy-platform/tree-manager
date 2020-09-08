@@ -18,17 +18,13 @@ export interface ITreeManagerEvents {
      */
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     /**
-     * Event emitted whenever a mouse click is identified
-     */
-    onClick?(itemTreeId: string, item: ITreeItem, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
-    /**
      * Event emitted whenever a tree node is expanded
      */
-    onExpandNode?(itemTreeId: string, item: ITreeItem, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
+    onExpandNode?(itemTreeId: string, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
     /**
-     * Event emitted whenever a double click with the mouse is identified
+     * event emitted when changes to items occur
      */
-    onDoubleClick?(itemTreeId: string, item: ITreeItem, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
+    onChangeItems(items: ITreeItem[]): void;
 }
 
 export interface ITreeManagerProps {

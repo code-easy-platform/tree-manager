@@ -82,16 +82,12 @@
     filter: brightness(0.6);
 }
 
-.tree-item.selected label {
-    background-color: var(--selected-item-color);
-}
-
 .tree-item.editing label {
     background-color: var(--editing-item-color);
 }
 
-.tree-item :checked:focus+label {
-    background-color: var(--focused-item-color);
+.tree-item.selected label {
+    background-color: var(--selected-item-color);
 }
 
 .tree-item.dragging label {
@@ -105,6 +101,10 @@
     background-color: #ffffff10;
     animation-duration: 1s;
     border-radius: 50px;
+}
+
+.tree-item :checked:focus+label {
+    background-color: var(--focused-item-color);
 }
 
 @keyframes animation-dragging-over {

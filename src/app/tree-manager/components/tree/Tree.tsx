@@ -7,8 +7,9 @@ interface TreeProps {
     item: ITreeItem;
     paddingLeft?: number;
     disabledToDrop?: string[];
+    onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDrop = [] }) => {
+export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDrop = [], onContextMenu }) => {
     const { itemsByAscId } = useItems();
 
     const childs = itemsByAscId(item.id);
@@ -18,6 +19,7 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
             <TreeItem
                 {...item}
                 paddingLeft={paddingLeft}
+                onContextMenu={onContextMenu}
                 disabledToDrop={[...disabledToDrop]}
                 showExpandIcon={childs.length > 0 && (item.showExpandIcon === undefined ? true : item.showExpandIcon)}
             />
@@ -26,11 +28,9 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
                     <Tree
                         key={index}
                         item={child}
+                        onContextMenu={onContextMenu}
                         paddingLeft={paddingLeft + 16}
-                        disabledToDrop={[
-                            ...disabledToDrop,
-                            String(item.id),
-                        ]}
+                        disabledToDrop={[...disabledToDrop, String(item.id)]}
                     />
                 ))
             }

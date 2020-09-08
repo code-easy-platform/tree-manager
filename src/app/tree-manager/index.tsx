@@ -9,11 +9,11 @@ import { TreeManagerBase } from './TreeManagerBase';
 interface TreeManagerProps extends ITreeManagerProps, ITreeManagerEvents {
     configs: ITreeManagerConfigs;
 }
-export const TreeManager: React.FC<TreeManagerProps> = ({ configs, items, ...rest }) => {
+export const TreeManager: React.FC<TreeManagerProps> = ({ configs, items, onChangeItems, ...rest }) => {
 
     return (
         <ConfigurationProvider configs={configs}>
-            <ItemsProvider items={items}>
+            <ItemsProvider items={items} onChange={onChangeItems}>
                 <DndProvider backend={HTML5Backend}>
                     <TreeManagerBase {...rest} />
                 </DndProvider>

@@ -17,13 +17,10 @@ const App: FC = () => {
               showEmptyMessage: true,
             }}
             items={items}
-            onFocus={console.log}
-            onClick={console.log}
-            onKeyDown={console.log}
-            onDropItem={console.log}
-            onExpandNode={console.log}
-            onDoubleClick={console.log}
-            onContextMenu={console.log}
+            onChangeItems={console.log}
+          // onFocus={console.log}
+          // onKeyDown={console.log}
+          // onContextMenu={console.log}
           // childrenWhenEmpty={"Right click here to add features"}
           />
 
