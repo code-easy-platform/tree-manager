@@ -15,7 +15,7 @@ const App: FC = () => {
               isUseDrag: true,
               isUseDrop: true,
               id: 'MinhaTree',
-              showEmptyMessage: true,
+              showEmptyMessage: false,
               customDragLayer: (item) => (
                 <CustomDragLayer children={item} />
               )
