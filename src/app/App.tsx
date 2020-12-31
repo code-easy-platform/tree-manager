@@ -29,10 +29,16 @@ const App: FC = () => {
             onChangeItems={console.log}
             // childrenWhenEmpty={"Right click here to add features"}
             configs={{
-              id: 'MyTree',
-              isUseDrag: true,
-              isUseDrop: true,
-              // showEmptyMessage: false,
+              // id: 'MyTree',
+              // leftPadding: 1,
+              // isUseDrag: true,
+              // isUseDrop: true,
+              // errorTextColor: 'red',
+              // showEmptyMessage: true,
+              // warningTextColor: 'green',
+              // focusedItemBackgroundColor: 'orange',
+              // activeItemBackgroundColor: 'darkblue',
+              // editingItemBackgroundColor: 'darkred',
               customDragLayer: item => <CustomDragLayer children={item} />,
             }}
           />

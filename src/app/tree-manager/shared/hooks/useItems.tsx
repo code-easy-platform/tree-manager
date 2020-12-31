@@ -67,7 +67,7 @@ export const useItems = () => {
 
     const editItem = useCallback((observeble: IObservable<boolean | undefined>) => {
         items.forEach(item => {
-            set(item.isSelected, item.isSelected.id === observeble.id);
+            set(item.isEditing, item.isEditing.id === observeble.id);
         });
     }, [items]);
 

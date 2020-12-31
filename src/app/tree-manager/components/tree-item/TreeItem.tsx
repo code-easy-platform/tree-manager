@@ -91,12 +91,12 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
 
     // Emits an event to identify which element was focused.
     const handleOnItemsFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-        if (isDisabled || isDisabledClick) return;
+        if (isDisabled || isDisabledClick || isSelected) return;
 
         e.stopPropagation();
 
         selectItem(_isSelected, false);
-    }, [isDisabled, isDisabledClick, _isSelected, selectItem]);
+    }, [isDisabled, isDisabledClick, isSelected, selectItem, _isSelected]);
 
     // Emits an event to identify which element was clicked.
     const handleOnDoubleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
