@@ -3,8 +3,8 @@ import { IconCollapsedFolder, IconExpandedFolder } from 'code-easy-components';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { useItems, useConfigs } from '../../shared/hooks';
 import { ITreeItem, IDroppableItem } from '../../shared/interfaces';
+import { useItems, useConfigs } from '../../shared/hooks';
 import { Icon } from '../icon/icon';
 
 interface TreeItemProps extends ITreeItem {
@@ -14,8 +14,8 @@ interface TreeItemProps extends ITreeItem {
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
 export const TreeItem: React.FC<TreeItemProps> = (props) => {
-    const itemRef = useRef(null);
     const radioItemRef = useRef<HTMLInputElement>(null);
+    const itemRef = useRef(null);
 
     const {
         showExpandIcon, nodeExpanded, description, hasError, hasWarning,

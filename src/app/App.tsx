@@ -11,21 +11,21 @@ const App: FC = () => {
         <div style={{ width: 300, height: 500, alignSelf: "center", backgroundColor: "#1E1E1E", flexDirection: "column", boxShadow: 'black 0px 0px 10px' }}>
 
           <TreeManager
+            items={items}
+            // onFocus={console.log}
+            // onKeyDown={console.log}
+            onContextMenu={console.log}
+            // onChangeItems={console.log}
+            // childrenWhenEmpty={"Right click here to add features"}
             configs={{
+              id: 'MyTree',
               isUseDrag: true,
               isUseDrop: true,
-              id: 'MinhaTree',
-              showEmptyMessage: false,
+              // showEmptyMessage: false,
               customDragLayer: (item) => (
                 <CustomDragLayer children={item} />
               )
             }}
-            items={items}
-            // onChangeItems={console.log}
-            // onFocus={console.log}
-            // onKeyDown={console.log}
-            onContextMenu={console.log}
-          // childrenWhenEmpty={"Right click here to add features"}
           />
 
         </div>

@@ -5,9 +5,7 @@ import { useConfigs, useItems } from './shared/hooks';
 import { EmptyFeedback, Tree } from './components';
 import './TreeManagerBase.css';
 
-interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, Omit<ITreeManagerEvents, 'onChangeItems'> {
-
-}
+interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, Omit<ITreeManagerEvents, 'onChangeItems'> { }
 export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEmpty, onFocus, onContextMenu, onKeyDown }) => {
     const { showEmptyMessage } = useConfigs();
     const { baseItems } = useItems();
@@ -26,9 +24,8 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
             onContextMenu={handleContextMenu}
         >
             {baseItems.length > 0 && baseItems.map((item, index) => (
-                <div className="tree-base-internal">
+                <div key={index} className="tree-base-internal">
                     <Tree
-                        key={index}
                         item={item}
                         onContextMenu={onContextMenu}
                     />

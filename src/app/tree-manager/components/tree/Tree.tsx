@@ -1,6 +1,7 @@
 import React from 'react';
-import { TreeItem } from '../tree-item/TreeItem';
+
 import { ITreeItem } from '../../shared/interfaces';
+import { TreeItem } from '../tree-item/TreeItem';
 import { useItems } from '../../shared/hooks';
 
 interface TreeProps {
