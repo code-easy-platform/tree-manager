@@ -26,13 +26,12 @@ const App: FC = () => {
             // onDropItem={console.log}
             // onExpandNode={console.log}
             // onContextMenu={console.log}
-            onChangeItems={console.log}
             // childrenWhenEmpty={"Right click here to add features"}
             configs={{
               // id: 'MyTree',
               // leftPadding: 1,
-              // isUseDrag: true,
-              // isUseDrop: true,
+              isUseDrag: true,
+              isUseDrop: true,
               // errorTextColor: 'red',
               // showEmptyMessage: true,
               // warningTextColor: 'green',
