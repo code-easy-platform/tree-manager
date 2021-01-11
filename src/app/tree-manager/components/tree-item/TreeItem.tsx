@@ -173,10 +173,10 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
                     iconName={nodeExpanded ? "btn-collapse-folder" : "btn-expand-folder"}
                 />
                 <Icon
-                    icon={icon}
                     iconName={label}
                     iconSize={iconSize || 16}
                     show={icon !== undefined}
+                    icon={typeof icon === 'string' ? icon : String(icon?.content)}
                     onClick={useCustomIconToExpand ? handleExpandNode : undefined}
                 />
                 {label}
