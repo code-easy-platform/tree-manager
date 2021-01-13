@@ -17,6 +17,9 @@ export const useBaseItems = () => {
 export const useItemsByAscendentId = (id: string | undefined) => {
     const { items } = useContext(ItemsContext);
     const [childs, setChilds] = useState(items.filter(item => item.ascendantId.value === id));
+    useEffect(() => {
+        setChilds(items.filter(item => item.ascendantId.value === id))
+    }, [items, id]);
 
     useEffect(() => {
         const subscriptions: ISubscription[] = [];
