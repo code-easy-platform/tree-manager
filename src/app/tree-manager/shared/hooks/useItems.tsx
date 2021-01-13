@@ -8,7 +8,41 @@ import { ItemsContext } from './../contexts';
  */
 export const useBaseItems = () => {
     const { items } = useContext(ItemsContext);
-    return items.filter(item => !item.ascendantId.value);
+    const [baseItems, setBaseItems] = useState(items.filter(item => !item.ascendantId.value));
+
+    useEffect(() => {
+        const subscriptions: ISubscription[] = [];
+
+        setBaseItems(items.filter(item => !item.ascendantId.value));
+
+        items.forEach(item => {
+            subscriptions.push(
+                item.ascendantId.subscribe(ascendantId => {
+                    if (!ascendantId) {
+                        setBaseItems(oldChilds => {
+                            if (!oldChilds.some(child => child.id.value === item.id.value)) {
+                                return [...oldChilds, item];
+                            } else {
+                                return oldChilds;
+                            }
+                        });
+                    } else {
+                        setBaseItems(oldChilds => {
+                            if (oldChilds.some(child => child.id.value === item.id.value)) {
+                                return [...oldChilds.filter(child => child.id.value !== item.id.value)];
+                            } else {
+                                return oldChilds;
+                            }
+                        });
+                    }
+                })
+            );
+        });
+
+        return () => subscriptions.forEach(subs => subs?.unsubscribe());
+    }, [items]);
+
+    return baseItems;
 }
 
 /**
@@ -17,12 +51,11 @@ export const useBaseItems = () => {
 export const useItemsByAscendentId = (id: string | undefined) => {
     const { items } = useContext(ItemsContext);
     const [childs, setChilds] = useState(items.filter(item => item.ascendantId.value === id));
-    useEffect(() => {
-        setChilds(items.filter(item => item.ascendantId.value === id))
-    }, [items, id]);
 
     useEffect(() => {
         const subscriptions: ISubscription[] = [];
+
+        setChilds(items.filter(item => item.ascendantId.value === id));
 
         items.forEach(item => {
             subscriptions.push(
