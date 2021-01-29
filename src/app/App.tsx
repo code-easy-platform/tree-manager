@@ -21,6 +21,8 @@ const App: FC = () => {
           <TreeManager
             // key="MyKey"
             items={items}
+            onEdit={console.log}
+            onSelect={console.log}
             // onFocus={console.log}
             // onKeyDown={console.log}
             // onDropItem={console.log}
