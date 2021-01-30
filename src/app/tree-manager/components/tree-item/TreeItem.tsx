@@ -54,7 +54,7 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
     // Scroll elements
     useEffect(() => {
         if (isSelected && itemRef.current) {
-            itemRef.current.scrollIntoView({ behavior: 'smooth', block: "center" });
+            itemRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, [isSelected]);
 
