@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useEffect } from 'react';
-import { IconCollapsedFolder, IconExpandedFolder } from 'code-easy-components';
 import { IObservable, useObserver, useObserverValue } from 'react-observing';
+import { VscChevronRight, VscChevronDown } from 'react-icons/vsc';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { ITreeItem, IDroppableItem } from '../../shared/interfaces';
@@ -50,7 +50,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onConte
         }
     }, [isSelected]);
 
-    const handleExpandNode = useCallback((e: React.MouseEvent<HTMLImageElement | HTMLInputElement, MouseEvent>) => {
+    const handleExpandNode = useCallback((e: React.MouseEvent<any, MouseEvent>) => {
         if (!isAllowedToggleNodeExpand) return;
 
         e.stopPropagation();
@@ -169,13 +169,22 @@ export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onConte
                 style={{ paddingLeft: (showExpandIcon ? 8 : 28) + paddingLeft }}
                 className={`${hasError ? ' error' : ''}${hasWarning ? ' warning' : ''}`}
             >
-                <Icon
-                    iconSize={12}
-                    show={showExpandIcon}
-                    onClick={handleExpandNode}
-                    icon={nodeExpanded ? IconCollapsedFolder : IconExpandedFolder}
-                    iconName={nodeExpanded ? "btn-collapse-folder" : "btn-expand-folder"}
-                />
+                {showExpandIcon && (nodeExpanded
+                    ? (
+                        <VscChevronDown
+                            size={16}
+                            style={{ marginRight: 8 }}
+                            onClick={handleExpandNode}
+                        />
+                    )
+                    : (
+                        <VscChevronRight
+                            size={16}
+                            style={{ marginRight: 8 }}
+                            onClick={handleExpandNode}
+                        />
+                    )
+                )}
                 <Icon
                     iconName={label}
                     iconSize={iconSize || 16}

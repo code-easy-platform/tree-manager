@@ -1,7 +1,8 @@
-import { IconAction, IconFolder } from 'code-easy-components';
 import { observe } from "react-observing";
 
 import { ITreeItem } from "./tree-manager/shared/interfaces";
+import IconAction from './../temp-assets/icon-action.png';
+import IconFolder from './../temp-assets/icon-folder.png';
 
 type TOptional<T> = { [k in keyof T]?: T[k] };
 

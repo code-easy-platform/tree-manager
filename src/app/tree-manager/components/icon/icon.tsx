@@ -17,20 +17,20 @@ interface IconProps {
     onDoubleClick?(e: React.MouseEvent<HTMLImageElement, MouseEvent>): void;
 }
 export const Icon: React.FC<IconProps> = ({ onClick, onDoubleClick, icon, iconName, show, iconSize = 25 }) => {
-    
+
     const handleOnClick = useCallback((e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         e.stopPropagation();
         e.preventDefault();
 
         onClick && onClick(e);
-    }, [onClick]);    
-    
+    }, [onClick]);
+
     const handleOnDoubleClick = useCallback((e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         e.stopPropagation();
         e.preventDefault();
 
         onDoubleClick && onDoubleClick(e);
-    }, [onDoubleClick]);    
+    }, [onDoubleClick]);
 
     if (show === undefined) return null;
     if (show === false) return null;
@@ -40,10 +40,10 @@ export const Icon: React.FC<IconProps> = ({ onClick, onDoubleClick, icon, iconNa
             src={icon}
             width={iconSize}
             height={iconSize}
+            style={{ marginRight: 8 }}
             onMouseDown={handleOnClick}
             alt={"TreeItem_" + iconName}
             onDoubleClick={handleOnDoubleClick}
-            style={{ marginRight: 4 }}
         />
     );
 }
