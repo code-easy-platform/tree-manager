@@ -20,7 +20,9 @@ export const getCustomDragLayer = (text: string, options?: IOptions): HTMLLabelE
   container.style.zIndex = '-100';
   container.style.width = 'auto';
 
-  if (options?.icon) {
+  console.log(options?.icon)
+
+  if (options?.icon && options?.icon.includes('data')) {
     const icon = document.createElement('img');
 
     icon.width = 16;

@@ -14,42 +14,34 @@ interface TreeItemProps extends ITreeItem {
     showExpandIcon: IObservable<boolean>;
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeItem: React.FC<TreeItemProps> = (props) => {
+export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onContextMenu, paddingLeft, ...props }) => {
     const { isUseDrag, isUseDrop, id: treeIdentifier, activeItemBackgroundColor } = useConfigs();
     const { editItem, selectItem, changeAscById } = useItems();
 
     const radioItemRef = useRef<HTMLInputElement>(null);
     const itemRef = useRef<HTMLLabelElement>(null);
 
-    const {
-        useCustomIconToExpand: _useCustomIconToExpand, iconSize: _iconSize, isDisabledDrop: _isDisabledDrop, isDisabledSelect: _isDisabledSelect, canDropList: _canDropList,
-        showExpandIcon: _showExpandIcon, description: _description, hasError: _hasError, hasWarning: _hasWarning, isDisabled: _isDisabled, isDisabledClick: _isDisabledClick,
-        isAllowedToggleNodeExpand: _isAllowedToggleNodeExpand, paddingLeft, isDisabledDrag: _isDisabledDrag, isEditing: _isEditing,
-        id: _id, label: _label, isSelected: _isSelected, nodeExpanded: _nodeExpanded, icon: _icon, type: _type,
-        disabledToDrop = [], onContextMenu, isDisabledDoubleClick: _isDisabledDoubleClick
-    } = props;
-
-    const [isAllowedToggleNodeExpand = true] = useObserver(_isAllowedToggleNodeExpand);
-    const useCustomIconToExpand = useObserverValue(_useCustomIconToExpand);
-    const isDisabledDoubleClick = useObserverValue(_isDisabledDoubleClick);
-    const [nodeExpanded, setNodeExpanded] = useObserver(_nodeExpanded);
-    const isDisabledSelect = useObserverValue(_isDisabledSelect);
-    const isDisabledClick = useObserverValue(_isDisabledClick);
-    const isDisabledDrag = useObserverValue(_isDisabledDrag);
-    const isDisabledDrop = useObserverValue(_isDisabledDrop);
-    const showExpandIcon = useObserverValue(_showExpandIcon);
-    const description = useObserverValue(_description);
-    const canDropList = useObserverValue(_canDropList);
-    const hasWarning = useObserverValue(_hasWarning);
-    const isDisabled = useObserverValue(_isDisabled);
-    const isSelected = useObserverValue(_isSelected);
-    const isEditing = useObserverValue(_isEditing);
-    const hasError = useObserverValue(_hasError);
-    const iconSize = useObserverValue(_iconSize);
-    const label = useObserverValue(_label);
-    const type = useObserverValue(_type);
-    const icon = useObserverValue(_icon);
-    const id = useObserverValue(_id);
+    const [isAllowedToggleNodeExpand = true] = useObserver(props.isAllowedToggleNodeExpand);
+    const useCustomIconToExpand = useObserverValue(props.useCustomIconToExpand);
+    const isDisabledDoubleClick = useObserverValue(props.isDisabledDoubleClick);
+    const [nodeExpanded, setNodeExpanded] = useObserver(props.nodeExpanded);
+    const isDisabledSelect = useObserverValue(props.isDisabledSelect);
+    const isDisabledClick = useObserverValue(props.isDisabledClick);
+    const isDisabledDrag = useObserverValue(props.isDisabledDrag);
+    const isDisabledDrop = useObserverValue(props.isDisabledDrop);
+    const showExpandIcon = useObserverValue(props.showExpandIcon);
+    const description = useObserverValue(props.description);
+    const canDropList = useObserverValue(props.canDropList);
+    const isDisabled = useObserverValue(props.isDisabled);
+    const hasWarning = useObserverValue(props.hasWarning);
+    const isSelected = useObserverValue(props.isSelected);
+    const isEditing = useObserverValue(props.isEditing);
+    const hasError = useObserverValue(props.hasError);
+    const iconSize = useObserverValue(props.iconSize);
+    const label = useObserverValue(props.label);
+    const type = useObserverValue(props.type);
+    const icon = useObserverValue(props.icon);
+    const id = useObserverValue(props.id);
 
     // Scroll elements
     useEffect(() => {
@@ -73,9 +65,9 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
         } else if (e.keyCode === 37 && nodeExpanded) {
             handleExpandNode(e as any);
         } else if (e.keyCode === 13) {
-            editItem(_isEditing);
+            editItem(props.isEditing);
         }
-    }, [editItem, handleExpandNode, _isEditing, nodeExpanded]);
+    }, [editItem, handleExpandNode, props.isEditing, nodeExpanded]);
 
     const handleOnDrop = useCallback((droppedId: string | undefined) => {
         changeAscById(droppedId, id)
@@ -93,8 +85,8 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
 
         e.stopPropagation();
 
-        selectItem(_isSelected, e.ctrlKey);
-    }, [_isSelected, isDisabled, isDisabledClick, selectItem]);
+        selectItem(props.isSelected, e.ctrlKey);
+    }, [props.isSelected, isDisabled, isDisabledClick, selectItem]);
 
     // Emits an event to identify which element was focused.
     const handleOnItemsFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
@@ -102,8 +94,8 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
 
         e.stopPropagation();
 
-        selectItem(_isSelected, false);
-    }, [isDisabled, isDisabledClick, isSelected, selectItem, _isSelected]);
+        selectItem(props.isSelected, false);
+    }, [isDisabled, isDisabledClick, isSelected, selectItem, props.isSelected]);
 
     // Emits an event to identify which element was clicked.
     const handleOnDoubleClick = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -112,8 +104,8 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
         e.stopPropagation();
         e.preventDefault();
 
-        editItem(_isEditing);
-    }, [isDisabled, isDisabledDoubleClick, _isEditing, editItem]);
+        editItem(props.isEditing);
+    }, [isDisabled, isDisabledDoubleClick, props.isEditing, editItem]);
 
     /** Permite que um elemento seja arrastado e dropado em outro lugar.. */
     const [{ isDragging }, dragRef, preview] = useDrag<IDroppableItem, any, { isDragging: boolean }>({
