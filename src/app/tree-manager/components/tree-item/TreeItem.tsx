@@ -14,7 +14,7 @@ interface TreeItemProps extends ITreeItem {
     showExpandIcon: IObservable<boolean>;
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
-export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onContextMenu, paddingLeft, ...props }) => {
+export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onContextMenu, paddingLeft, children, ...props }) => {
     const { isUseDrag, isUseDrop, id: treeIdentifier, activeItemBackgroundColor } = useConfigs();
     const { editItem, selectItem, changeAscById } = useItems();
 
@@ -46,7 +46,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onConte
     // Scroll elements
     useEffect(() => {
         if (isSelected && itemRef.current) {
-            itemRef.current.scrollIntoView({ behavior: 'smooth' });
+            (itemRef.current as any)?.scrollIntoViewIfNeeded({ behavior: 'smooth' });
         }
     }, [isSelected]);
 
@@ -148,53 +148,56 @@ export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onConte
     dropRef(itemRef); /** Agrupa as referências do drop com as da ref. */
 
     return (
-        <div
-            title={description}
-            onMouseDown={handleOnClick}
-            onContextMenu={handleOnContext}
-            onDoubleClick={handleOnDoubleClick}
-            className={`tree-item${isDisabled ? ' disabled' : ''}${isEditing ? ' editing' : ''}${isSelected ? ' selected' : ''}${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop) ? ' dragging-over' : ''}`}
-        >
-            <input
-                id={id}
-                type="radio"
-                ref={radioItemRef}
-                onKeyDown={handleKeyDown}
-                onFocus={handleOnItemsFocus}
-                disabled={isDisabled || isDisabledSelect}
-                name={"tree-item-name-" + treeIdentifier}
-            />
-            <label
-                htmlFor={id}
-                ref={itemRef}
-                style={{ paddingLeft: (showExpandIcon ? 8 : 28) + paddingLeft }}
-                className={`${hasError ? ' error' : ''}${hasWarning ? ' warning' : ''}`}
+        <div style={{ width: '100%', flexDirection: 'column', backgroundColor: (isDraggingOver && !isDragging) ? '#ffffff07' : undefined, opacity: isDragging ? 0.5 : undefined }}>
+            <div
+                title={description}
+                onMouseDown={handleOnClick}
+                onContextMenu={handleOnContext}
+                onDoubleClick={handleOnDoubleClick}
+                className={`tree-item${isDisabled ? ' disabled' : ''}${isEditing ? ' editing' : ''}${isSelected ? ' selected' : ''}${isDragging ? ' dragging' : ''}${(isDraggingOver && isUseDrop && !isDisabledDrop && !isDragging) ? ' dragging-over' : ''}`}
             >
-                {showExpandIcon && (nodeExpanded
-                    ? (
-                        <VscChevronDown
-                            size={16}
-                            style={{ marginRight: 8 }}
-                            onClick={handleExpandNode}
-                        />
-                    )
-                    : (
-                        <VscChevronRight
-                            size={16}
-                            style={{ marginRight: 8 }}
-                            onClick={handleExpandNode}
-                        />
-                    )
-                )}
-                <Icon
-                    iconName={label}
-                    iconSize={iconSize || 16}
-                    show={icon !== undefined}
-                    icon={typeof icon === 'string' ? icon : String(icon?.content)}
-                    onClick={useCustomIconToExpand ? handleExpandNode : undefined}
+                <input
+                    id={id}
+                    type="radio"
+                    ref={radioItemRef}
+                    onKeyDown={handleKeyDown}
+                    onFocus={handleOnItemsFocus}
+                    disabled={isDisabled || isDisabledSelect}
+                    name={"tree-item-name-" + treeIdentifier}
                 />
-                {label}
-            </label>
+                <label
+                    htmlFor={id}
+                    ref={itemRef}
+                    style={{ paddingLeft: (showExpandIcon ? 8 : 28) + paddingLeft }}
+                    className={`${hasError ? ' error' : ''}${hasWarning ? ' warning' : ''}`}
+                >
+                    {showExpandIcon && (nodeExpanded
+                        ? (
+                            <VscChevronDown
+                                size={16}
+                                style={{ marginRight: 8 }}
+                                onClick={handleExpandNode}
+                            />
+                        )
+                        : (
+                            <VscChevronRight
+                                size={16}
+                                style={{ marginRight: 8 }}
+                                onClick={handleExpandNode}
+                            />
+                        )
+                    )}
+                    <Icon
+                        iconName={label}
+                        iconSize={iconSize || 16}
+                        show={icon !== undefined}
+                        icon={typeof icon === 'string' ? icon : String(icon?.content)}
+                        onClick={useCustomIconToExpand ? handleExpandNode : undefined}
+                    />
+                    {label}
+                </label>
+            </div>
+            {children}
         </div>
     );
 }

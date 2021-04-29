@@ -101,11 +101,7 @@
 }
 
 .tree-item.dragging-over label {
-    animation-name: animation-dragging-over;
-    animation-iteration-count: infinite;
     background-color: #ffffff10;
-    animation-duration: 1s;
-    border-radius: 50px;
 }
 
 .tree-item :checked:focus+label {
@@ -114,16 +110,4 @@
 
 .tree-item.editing label, .tree-item.editing.selected label, .tree-item.editing.selected :checked:focus+label label {
     background-color: var(--editing-item-color);
-}
-
-@keyframes animation-dragging-over {
-    0% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.2;
-    }
 }

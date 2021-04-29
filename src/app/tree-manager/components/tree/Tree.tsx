@@ -20,14 +20,13 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
     const childs = useItemsByAscendentId(itemId);
 
     return (
-        <>
-            <TreeItem
-                {...item}
-                paddingLeft={paddingLeft}
-                onContextMenu={onContextMenu}
-                disabledToDrop={[...disabledToDrop]}
-                showExpandIcon={observe(childs.length > 0 && (showExpandIcon === undefined ? true : showExpandIcon))}
-            />
+        <TreeItem
+            {...item}
+            paddingLeft={paddingLeft}
+            onContextMenu={onContextMenu}
+            disabledToDrop={[...disabledToDrop]}
+            showExpandIcon={observe(childs.length > 0 && (showExpandIcon === undefined ? true : showExpandIcon))}
+        >
             {(nodeExpanded && itemId) &&
                 childs.map((child, index) => (
                     <Tree
@@ -39,6 +38,6 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
                     />
                 ))
             }
-        </>
+        </TreeItem>
     );
 }
