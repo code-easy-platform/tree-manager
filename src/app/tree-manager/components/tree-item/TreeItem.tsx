@@ -1,11 +1,11 @@
 import React, { useCallback, useRef, useEffect } from 'react';
 import { IconCollapsedFolder, IconExpandedFolder } from 'code-easy-components';
 import { IObservable, useObserver, useObserverValue } from 'react-observing';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { ITreeItem, IDroppableItem } from '../../shared/interfaces';
 import { useItems, useConfigs } from '../../shared/hooks';
+import { getCustomDragLayer } from '../../shared/tools';
 import { Icon } from '../icon/icon';
 
 interface TreeItemProps extends ITreeItem {
@@ -15,7 +15,7 @@ interface TreeItemProps extends ITreeItem {
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
 export const TreeItem: React.FC<TreeItemProps> = (props) => {
-    const { isUseDrag, isUseDrop, id: treeIdentifier, customDragLayer } = useConfigs();
+    const { isUseDrag, isUseDrop, id: treeIdentifier, activeItemBackgroundColor } = useConfigs();
     const { editItem, selectItem, changeAscById } = useItems();
 
     const radioItemRef = useRef<HTMLInputElement>(null);
@@ -135,10 +135,15 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
 
     /** Faz com que o item que está sendo arrastado tenha um preview custumizado */
     useEffect(() => {
-        if (customDragLayer) {
-            preview(getEmptyImage(), { captureDraggingState: true });
-        }
-    }, [customDragLayer, preview]);
+        const customDragLayer = getCustomDragLayer(label, {
+            icon: typeof icon === 'string' ? icon : String(icon?.content),
+            color: activeItemBackgroundColor,
+        });
+
+        preview(customDragLayer, { captureDraggingState: false, offsetX: -16, offsetY: customDragLayer.offsetHeight / 2 })
+
+        return () => customDragLayer.remove();
+    }, [preview, label, icon, activeItemBackgroundColor]);
 
     /** Usado para que seja possível o drop de itens no editor. */
     const [{ isDraggingOver }, dropRef] = useDrop<IDroppableItem, any, { isDraggingOver: boolean }>({
@@ -188,18 +193,6 @@ export const TreeItem: React.FC<TreeItemProps> = (props) => {
                 />
                 {label}
             </label>
-            {(isDragging && customDragLayer) &&
-                // Usada para mostrar o preview com titulo do item que está sendo arrastado
-                customDragLayer(<>
-                    <Icon
-                        iconSize={12}
-                        iconName={label}
-                        show={icon !== undefined}
-                        icon={typeof icon === 'string' ? icon : String(icon?.content)}
-                    />
-                    {label}
-                </>)
-            }
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { TreeManager, CustomDragLayer, ITreeItem } from './tree-manager';
+import { TreeManager, ITreeItem } from './tree-manager';
 import { Items } from './Mock';
 import './App.css';
 
@@ -40,7 +40,6 @@ const App: FC = () => {
               // focusedItemBackgroundColor: 'orange',
               // activeItemBackgroundColor: 'darkblue',
               // editingItemBackgroundColor: 'darkred',
-              customDragLayer: item => <CustomDragLayer children={item} />,
             }}
           />
 
