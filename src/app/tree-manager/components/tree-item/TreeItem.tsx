@@ -109,8 +109,9 @@ export const TreeItem: React.FC<TreeItemProps> = ({ disabledToDrop = [], onConte
 
     /** Permite que um elemento seja arrastado e dropado em outro lugar.. */
     const [{ isDragging }, dragRef, preview] = useDrag<IDroppableItem, any, { isDragging: boolean }>({
-        collect: monitor => ({ isDragging: monitor.isDragging() }),
+        type,
         canDrag: isUseDrag && !isDisabledDrag,
+        collect: monitor => ({ isDragging: monitor.isDragging() }),
         item: {
             type,
             itemProps: {

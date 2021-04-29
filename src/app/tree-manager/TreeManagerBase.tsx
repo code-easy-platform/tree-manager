@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 
+import { EmptyFeedback, OnEditListener, OnSelectListener, Tree } from './components';
 import { ITreeManagerProps, ITreeManagerEvents } from './shared/interfaces';
 import { useBaseItems, useConfigs } from './shared/hooks';
-import { EmptyFeedback, OnEditListener, OnSelectListener, Tree } from './components';
 import './TreeManagerBase.css';
 
 interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, ITreeManagerEvents { }
