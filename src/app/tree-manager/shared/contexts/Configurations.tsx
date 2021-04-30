@@ -16,9 +16,10 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
     configs.leftPadding = configs.leftPadding || 16;
 
     const setCSSVars = useCallback(() => {
-        document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#1f724320'}`);
-        document.documentElement.style.setProperty('--focused-item-color', `${configs.focusedItemBackgroundColor || '#1f724320'}`);
-        document.documentElement.style.setProperty('--editing-item-color', `${configs.editingItemBackgroundColor || '#1f724340'}`);
+        document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#ffffff10'}`);
+        document.documentElement.style.setProperty('--hovered-item-color', `${configs.hoveredItemBackgroundColor || '#ffffff10'}`);
+        document.documentElement.style.setProperty('--editing-item-color', `${configs.editingItemBackgroundColor || '#ffffff15'}`);
+        /*  */
         document.documentElement.style.setProperty('--warning-item-text-color', `${configs.warningTextColor || 'yellow'}`);
         document.documentElement.style.setProperty('--error-item-text-color', `${configs.errorTextColor || 'red'}`);
     }, [configs]);

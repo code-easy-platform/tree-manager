@@ -2,7 +2,7 @@ export interface ITreeManagerConfigs {
     /**
      * Background color of the item that has focused
      */
-    focusedItemBackgroundColor?: string,
+    hoveredItemBackgroundColor?: string,
     /**
      * Background color of the item that has the property isEditing = true
      */
@@ -37,7 +37,7 @@ export interface ITreeManagerConfigs {
      */
     leftPadding?: number;
     /**
-     * Identifier
+     * Identify the tree in the dom
      */
-    id?: string | undefined;
+    id: string;
 }

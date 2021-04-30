@@ -12,9 +12,9 @@ export const getCustomDragLayer = (text: string, options?: IOptions): HTMLLabelE
   container.style.paddingBottom = '2px';
 
   container.style.backgroundColor = options?.color || 'green';
+  container.style.fontSize = 'var(--font-size)';
   container.style.alignItems = 'center';
   container.style.borderRadius = '4px';
-  container.style.fontSize = 'smaller';
   container.style.position = 'fixed';
   container.style.display = 'flex';
   container.style.zIndex = '-100';

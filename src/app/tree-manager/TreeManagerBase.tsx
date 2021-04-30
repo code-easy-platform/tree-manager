@@ -7,7 +7,7 @@ import './TreeManagerBase.css';
 
 interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, ITreeManagerEvents { }
 export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEmpty, onFocus, onContextMenu, onKeyDown, onSelect, onEdit }) => {
-    const { showEmptyMessage } = useConfigs();
+    const { showEmptyMessage, id } = useConfigs();
     const baseItems = useBaseItems();
 
     const handleContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -15,32 +15,57 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
         onContextMenu && onContextMenu(undefined, e);
     }, [onContextMenu]);
 
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = useCallback(e => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const allTreeItems = document.querySelectorAll(`#${id} [tree-item] > .tree-item-label[tabIndex="0"]`);
+        if (allTreeItems.length === 0) return;
+
+        switch (e.key) {
+            case 'ArrowUp':
+                (allTreeItems[0] as any)?.click();
+                (allTreeItems[0] as any)?.focus();
+                break;
+            case 'ArrowDown':
+                (allTreeItems[0] as any)?.click();
+                (allTreeItems[0] as any)?.focus();
+                break;
+            default: break;
+        }
+
+        onKeyDown && onKeyDown(e);
+    }, [id, onKeyDown]);
+
     return (
         <div
+            id={id}
             tabIndex={0}
             onFocus={onFocus}
-            onKeyDown={onKeyDown}
-            className={"tree-base"}
+            className="tree-base"
+            onKeyDown={handleKeyDown}
             onContextMenu={handleContextMenu}
         >
             {baseItems.length > 0 && baseItems.map((item, index) => (
-                <div key={index} className="tree-base-internal">
-                    <Tree
-                        item={item}
-                        onContextMenu={onContextMenu}
-                    />
-                </div>
+                <Tree
+                    key={index}
+                    item={item}
+                    onContextMenu={onContextMenu}
+                />
             ))}
+
             {!((childrenWhenEmpty && baseItems.length === 0) || showEmptyMessage) &&
-                <div style={{ padding: 50 }} />
+                <div style={{ padding: 64 }} />
             }
-            <OnEditListener onEdit={onEdit} />
-            <OnSelectListener onSelect={onSelect} />
+
             <EmptyFeedback
                 children={childrenWhenEmpty}
                 onContextMenu={handleContextMenu}
                 show={!!((childrenWhenEmpty && baseItems.length === 0) || showEmptyMessage)}
             />
+
+            <OnEditListener onEdit={onEdit} />
+            <OnSelectListener onSelect={onSelect} />
         </div>
     );
 }

@@ -21,11 +21,11 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
 
     return (
         <TreeItem
-            {...item}
+            item={item}
             paddingLeft={paddingLeft}
             onContextMenu={onContextMenu}
-            disabledToDrop={[...disabledToDrop]}
-            showExpandIcon={observe(childs.length > 0 && (showExpandIcon === undefined ? true : showExpandIcon))}
+            // disabledToDrop={[...disabledToDrop]}
+            showExpandIcon={childs.length > 0 && (showExpandIcon === undefined ? true : showExpandIcon)}
         >
             {(nodeExpanded && itemId) &&
                 childs.map((child, index) => (
