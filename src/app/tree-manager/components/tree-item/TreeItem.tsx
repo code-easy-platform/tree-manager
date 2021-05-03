@@ -1,32 +1,45 @@
-import React, { useCallback, useRef, useEffect } from 'react';
-import { IObservable, set, useObserver, useObserverValue } from 'react-observing';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
+import { IObservable, useObserver, useObserverValue } from 'react-observing';
 import { VscChevronRight, VscChevronDown } from 'react-icons/vsc';
-import { useDrag, useDrop } from 'react-dnd';
+import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 
 import { ITreeItem, IDroppableItem } from '../../shared/interfaces';
+import { ExpandCollapse } from '../expand-collapse/ExpandCollapse';
 import { useItems, useConfigs } from '../../shared/hooks';
 import { getCustomDragLayer } from '../../shared/tools';
 import { Icon } from '../icon/icon';
 import './TreeItem.css';
-import { ExpandCollapse } from '../expand-collapse/ExpandCollapse';
+import { InsertBar } from '../insert-bar/InsertBar';
 
 
 interface TreeItemProps {
     item: ITreeItem;
     paddingLeft: number;
     showExpandIcon: boolean;
+    disabledToDrop?: string[];
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<any, MouseEvent>): void | undefined;
 }
-export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children, showExpandIcon, onContextMenu }) => {
-    const { isUseDrag, isUseDrop, id: treeIdentifier } = useConfigs();
+export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledToDrop = [], children, showExpandIcon, onContextMenu }) => {
+    const { isUseDrag, isUseDrop = true, id: treeIdentifier, activeItemBackgroundColor, leftPadding = 8 } = useConfigs();
     const { editItem, selectItem, changeAscById } = useItems();
 
+    const treeItemLabelHtmlRef = useRef<HTMLLabelElement>(null);
     const treeItemHtmlRef = useRef<HTMLDivElement>(null);
 
+    const [isOverCurrentStart, setIsOverStartCurrent] = useState(false);
+    const [isOverCurrentEnd, setIsOverEndCurrent] = useState(false);
+    const [isOverStart, setIsOverStart] = useState(false);
+    const [isOverEnd, setIsOverEnd] = useState(false);
+
+    const [isAllowedToggleNodeExpand = true] = useObserver(item.isAllowedToggleNodeExpand);
     const [useCustomIconToExpand] = useObserver(item.useCustomIconToExpand);
+    const [isDisabledDoubleClick] = useObserver(item.isDisabledDoubleClick);
     const [nodeExpanded, setNodeExpanded] = useObserver(item.nodeExpanded);
     const [isDisabledSelect] = useObserver(item.isDisabledSelect);
     const [isDisabledClick] = useObserver(item.isDisabledClick);
+    const [isDisabledDrag] = useObserver(item.isDisabledDrag);
+    const [isDisabledDrop] = useObserver(item.isDisabledDrop);
+    const [canDropList = []] = useObserver(item.canDropList);
     const [description] = useObserver(item.description);
     const [hasWarning] = useObserver(item.hasWarning);
     const [isSelected] = useObserver(item.isSelected);
@@ -36,11 +49,13 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
     const [hasError] = useObserver(item.hasError);
     const [label] = useObserver(item.label);
     const [icon] = useObserver(item.icon);
+    const [type] = useObserver(item.type);
+    const [id] = useObserver(item.id);
 
     /* Focus in this label element */
     useEffect(() => {
         if (isSelected) {
-            const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} [tree-item] > .tree-item-label`);
+            const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} .tree-item > .tree-item-label`);
             if (!treeItemLabel) return;
 
             (treeItemLabel as any)?.focus();
@@ -63,14 +78,23 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
         selectItem(item.isSelected, e.ctrlKey)
     }, [isDisabled, isDisabledClick, isDisabledSelect, item.isSelected, selectItem]);
 
+    const handleEdit = useCallback((e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+        if (isDisabled || isDisabledDoubleClick) return;
+
+        e.stopPropagation();
+        e.preventDefault();
+
+        editItem(item.isEditing);
+    }, [editItem, isDisabled, isDisabledDoubleClick, item.isEditing]);
+
     const handleKeyDown: React.KeyboardEventHandler<HTMLLabelElement> = useCallback(e => {
         e.stopPropagation();
         e.preventDefault();
 
-        const allTreeItems = Array.from(document.querySelectorAll(`#${treeIdentifier} [tree-item] > .tree-item-label[tabIndex="0"]`));
+        const allTreeItems = Array.from(document.querySelectorAll(`#${treeIdentifier} .tree-item > .tree-item-label[tabIndex="0"]`));
         if (allTreeItems.length === 0) return;
 
-        const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} [tree-item] > .tree-item-label`);
+        const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} .tree-item > .tree-item-label`);
         if (!treeItemLabel) return;
 
         const index = allTreeItems.indexOf(treeItemLabel);
@@ -88,7 +112,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                 }
                 break;
             case 'ArrowLeft':
-                if (nodeExpanded) {
+                if (nodeExpanded && isAllowedToggleNodeExpand) {
                     setNodeExpanded(false);
                 } else {
                     if (index > 0) {
@@ -97,7 +121,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                 }
                 break;
             case 'ArrowRight':
-                if (!nodeExpanded) {
+                if (!nodeExpanded && isAllowedToggleNodeExpand) {
                     setNodeExpanded(true);
                 } else {
                     if (allTreeItems.length > (index + 1)) {
@@ -106,7 +130,9 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                 }
                 break;
             case 'Enter':
-                editItem(item.isEditing);
+                if (!isDisabled && !isDisabledDoubleClick) {
+                    editItem(item.isEditing);
+                }
                 break;
             case 'Escape':
                 const treeBase = document.querySelector(`#${treeIdentifier}`);
@@ -116,18 +142,125 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                 break;
             default: break;
         }
-    }, [treeIdentifier, nodeExpanded, editItem, item.isEditing, setNodeExpanded]);
+    }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, editItem, item.isEditing, setNodeExpanded]);
 
+    const handleHover = useCallback((item: IDroppableItem, monitor: DropTargetMonitor) => {
+        if (!treeItemHtmlRef.current || !treeItemLabelHtmlRef.current) {
+            setIsOverEnd(false);
+            setIsOverStart(false);
+            setIsOverEndCurrent(false);
+            setIsOverStartCurrent(false);
+
+            return;
+        }
+
+        else if (item.id === id || disabledToDrop.some(itemId => itemId === item.id)) {
+            setIsOverEnd(false);
+            setIsOverStart(false);
+            setIsOverEndCurrent(false);
+            setIsOverStartCurrent(false);
+
+            return;
+        }
+
+        const monitorOffset = monitor.getClientOffset();
+
+        if (!monitorOffset) {
+            setIsOverEnd(false);
+            setIsOverStart(false);
+            setIsOverEndCurrent(false);
+            setIsOverStartCurrent(false);
+
+            return;
+        }
+
+        const targetSize = treeItemLabelHtmlRef.current.getBoundingClientRect();
+        const monitorIsOver = monitor.isOver({ shallow: true });
+        const draggedTop = monitorOffset.y - targetSize.top;
+
+        const startEndBreackSize = 4;
+
+        const tempIsOverEnd = draggedTop >= (targetSize.height - startEndBreackSize) && draggedTop <= targetSize.height;
+        const tempIsOverStart = draggedTop >= 0 && draggedTop <= startEndBreackSize;
+        const tempIsOverEndCurrent = (draggedTop >= (targetSize.height / 2)) && (draggedTop <= (targetSize.height - startEndBreackSize));
+        const tempIsOverStartCurrent = draggedTop >= startEndBreackSize && (draggedTop <= (targetSize.height / 2));
+
+
+        const isNotCurrent = tempIsOverEnd || tempIsOverStart;
+
+        setIsOverEnd(tempIsOverEnd && monitorIsOver);
+        setIsOverStart(tempIsOverStart && monitorIsOver);
+        setIsOverEndCurrent(tempIsOverEndCurrent && monitorIsOver && !isNotCurrent);
+        setIsOverStartCurrent(tempIsOverStartCurrent && monitorIsOver && !isNotCurrent);
+
+    }, [disabledToDrop, id]);
+
+    const handleDragLeave = useCallback(() => {
+        setIsOverEnd(false);
+        setIsOverStart(false);
+        setIsOverEndCurrent(false);
+        setIsOverStartCurrent(false);
+    }, []);
+
+
+    const [, dropRef] = useDrop<IDroppableItem, any, any>({
+        // drop: item => { },
+        hover: handleHover,
+        accept: canDropList,
+        canDrop: () => isUseDrop && !isDisabledDrop,
+    }, [canDropList, isUseDrop, isDisabledDrop, handleHover]);
+
+    const [{ isDragging }, dragRef, preview] = useDrag<IDroppableItem, any, { isDragging: boolean }>({
+        type,
+        canDrag: isUseDrag && !isDisabledDrag,
+        collect: monitor => ({ isDragging: monitor.isDragging() }),
+        item: {
+            itemType: type,
+            height: 0,
+            width: 0,
+            label,
+            icon,
+            id,
+        },
+    }, [id, icon, label, isUseDrag, isDisabledDrag, type]);
+
+    dropRef(dragRef(treeItemHtmlRef));
+
+    /** Faz com que o item que está sendo arrastado tenha um preview custumizado */
+    useEffect(() => {
+        const customDragLayer = getCustomDragLayer(label, {
+            icon: typeof icon === 'string' ? icon : String(icon?.content),
+            color: activeItemBackgroundColor,
+        });
+
+        preview(customDragLayer, { captureDraggingState: false, offsetX: -16, offsetY: customDragLayer.offsetHeight / 2 })
+
+        return () => customDragLayer.remove();
+    }, [preview, label, icon, activeItemBackgroundColor]);
 
     return (
-        <div tree-item={""} ref={treeItemHtmlRef} title={description}>
+        <div
+            className="tree-item"
+            ref={treeItemHtmlRef}
+            onDragEnd={handleDragLeave}
+            onDragLeave={handleDragLeave}
+            tree-item-is-dragging={String(isDragging)}
+        >
+            <InsertBar
+                visible={isOverStart}
+                marginLeft={paddingLeft}
+                background={activeItemBackgroundColor}
+            />
+
             <label
+                title={description}
                 onClick={handleSelect}
                 style={{ paddingLeft }}
                 onKeyDown={handleKeyDown}
+                ref={treeItemLabelHtmlRef}
+                onDoubleClick={handleEdit}
                 className="tree-item-label"
                 onContextMenu={handleContext}
-                onDoubleClick={() => editItem(item.isEditing)}
                 tabIndex={(isDisabledSelect || isDisabled) ? -1 : 0}
 
                 tree-item-editing={String(isEditing)}
@@ -135,12 +268,13 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                 tree-item-disabled={String(isDisabled)}
                 tree-item-selected={String(isSelected)}
                 tree-item-has-warning={String(hasWarning)}
+                tree-item-is-dragging-over={String(isOverCurrentStart || isOverCurrentEnd)}
             >
-
                 <ExpandCollapse
-                    onClick={() => setNodeExpanded(!nodeExpanded)}
-                    isExpanded={nodeExpanded}
                     display={showExpandIcon}
+                    isExpanded={nodeExpanded}
+                    allowToggle={isAllowedToggleNodeExpand}
+                    onClick={() => setNodeExpanded(!nodeExpanded)}
                 />
 
                 <Icon
@@ -155,6 +289,12 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, children,
                     {label}
                 </p>
             </label>
+
+            <InsertBar
+                visible={isOverEnd}
+                background={activeItemBackgroundColor}
+                marginLeft={paddingLeft + (children ? leftPadding : 0)}
+            />
 
             {children && (
                 <div className="tree-item-childs">
@@ -240,10 +380,6 @@ export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onCon
         }
     }, [editItem, handleExpandNode, props.isEditing, nodeExpanded]);
 
-    const handleOnDrop = useCallback((droppedId: string | undefined) => {
-        changeAscById(droppedId, id)
-    }, [changeAscById, id]);
-
     /** Emits an event to identify which element was clicked. */
     const handleOnContext = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
@@ -278,6 +414,12 @@ export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onCon
         editItem(props.isEditing);
     }, [isDisabled, isDisabledDoubleClick, props.isEditing, editItem]);
 
+
+
+    const handleOnDrop = useCallback((droppedId: string | undefined) => {
+        changeAscById(droppedId, id)
+    }, [changeAscById, id]);
+
     //#endregion
 
     //#region Drag and drop
@@ -285,9 +427,9 @@ export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onCon
     /** Usado para que seja possível o drop de itens no editor. */
     const [{ isDraggingOver }, dropRef] = useDrop<IDroppableItem, any, { isDraggingOver: boolean }>({
         accept: canDropList || [],
-        drop: item => handleOnDrop(item.itemProps.id),
+        drop: item => handleOnDrop(item.id),
         collect: (monitor) => ({ isDraggingOver: monitor.isOver() }),
-        canDrop: ({ itemProps }) => !!isUseDrop && !isDisabledDrop && !disabledToDrop.some(item => item === itemProps.id),
+        canDrop: ({ id }) => !!isUseDrop && !isDisabledDrop && !disabledToDrop.some(item => item === id),
     });
 
     /** Permite que um elemento seja arrastado e dropado em outro lugar.. */
@@ -296,15 +438,12 @@ export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onCon
         canDrag: isUseDrag && !isDisabledDrag,
         collect: monitor => ({ isDragging: monitor.isDragging() }),
         item: {
-            type,
-            itemProps: {
-                itemType: type,
-                height: 0,
-                width: 0,
-                label,
-                icon,
-                id,
-            }
+            itemType: type,
+            height: 0,
+            width: 0,
+            label,
+            icon,
+            id,
         },
     });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { observe, useObserverValue } from 'react-observing';
+import { useObserverValue } from 'react-observing';
 
 import { useConfigs, useItemsByAscendentId } from '../../shared/hooks';
 import { ITreeItem } from '../../shared/interfaces';
@@ -12,7 +12,7 @@ interface TreeProps {
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void | undefined;
 }
 export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDrop = [], onContextMenu }) => {
-    const { leftPadding = 16 } = useConfigs();
+    const { leftPadding = 8 } = useConfigs();
 
     const showExpandIcon = useObserverValue(item.showExpandIcon);
     const nodeExpanded = useObserverValue(item.nodeExpanded);
@@ -24,7 +24,7 @@ export const Tree: React.FC<TreeProps> = ({ item, paddingLeft = 0, disabledToDro
             item={item}
             paddingLeft={paddingLeft}
             onContextMenu={onContextMenu}
-            // disabledToDrop={[...disabledToDrop]}
+            disabledToDrop={disabledToDrop}
             showExpandIcon={childs.length > 0 && (showExpandIcon === undefined ? true : showExpandIcon)}
         >
             {(nodeExpanded && itemId) &&

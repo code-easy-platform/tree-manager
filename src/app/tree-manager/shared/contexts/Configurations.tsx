@@ -13,7 +13,7 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
 
     // GENERAL
     configs.showEmptyMessage = configs.showEmptyMessage || false;
-    configs.leftPadding = configs.leftPadding || 16;
+    configs.leftPadding = configs.leftPadding || 8;
 
     const setCSSVars = useCallback(() => {
         document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#ffffff10'}`);

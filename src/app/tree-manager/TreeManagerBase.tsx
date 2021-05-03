@@ -19,8 +19,11 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
         e.stopPropagation();
         e.preventDefault();
 
-        const allTreeItems = document.querySelectorAll(`#${id} [tree-item] > .tree-item-label[tabIndex="0"]`);
-        if (allTreeItems.length === 0) return;
+        const allTreeItems = document.querySelectorAll(`#${id} .tree-item > .tree-item-label[tabIndex="0"]`);
+        if (allTreeItems.length === 0) {
+            onKeyDown && onKeyDown(e);
+            return;
+        }
 
         switch (e.key) {
             case 'ArrowUp':

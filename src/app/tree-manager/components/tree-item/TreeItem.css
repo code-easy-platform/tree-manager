@@ -1,4 +1,4 @@
-[tree-item] {
+.tree-item {
     flex-direction: column;
     display: block;
     width: 100%;
@@ -53,10 +53,17 @@
 
 [tree-item-has-error="true"] {
     color: var(--error-item-text-color);
-    text-decoration: underline wavy;
 }
 
 [tree-item-has-warning="true"] {
     color: var(--warning-item-text-color);
-    text-decoration: underline wavy;
+}
+
+[tree-item-is-dragging="true"] {
+    filter: brightness(0.4);
+    background-color: #ffffff10;
+}
+
+[tree-item-is-dragging-over="true"] {
+    background-color: #ffffff10;
 }

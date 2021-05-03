@@ -34,7 +34,7 @@ const newTreeItem = (value: TOptional<ITreeItem>): ITreeItem => {
 }
 
 export const Items: ITreeItem[] = [
-    newTreeItem({ id: observe("0"), label: observe("Item 01 (select, click, db click disabled)"), canDropList: observe(['ITEM']), type: observe('ITEM'), nodeExpanded: observe(true), ascendantId: observe(undefined), icon: observe({ content: IconFolder }), isDisabledClick: observe(true), isDisabledSelect: observe(true), isDisabledDoubleClick: observe(true), }),
+    newTreeItem({ id: observe("0"), label: observe("Item 01 (select, click, db click disabled)"), canDropList: observe(['ITEM']), type: observe('ITEM'), nodeExpanded: observe(true), ascendantId: observe(undefined), icon: observe({ content: IconFolder }), isDisabledClick: observe(true), isDisabledSelect: observe(false), isDisabledDoubleClick: observe(true), }),
     newTreeItem({ id: observe("1"), label: observe("Item 02 (warning)"), isSelected: observe(true), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('0'), icon: observe(undefined), hasWarning: observe(true) }),
     newTreeItem({ id: observe("2"), label: observe("Item 03"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('1'), icon: observe({ content: IconAction }) }),
     newTreeItem({ id: observe("3"), label: observe("Item 04"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('2'), icon: observe({ content: IconAction }) }),
@@ -43,7 +43,7 @@ export const Items: ITreeItem[] = [
     newTreeItem({ id: observe("6"), label: observe("Item 07"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('5'), icon: observe({ content: IconAction }) }),
     newTreeItem({ id: observe("7"), label: observe("Item 08"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('6'), icon: observe({ content: IconAction }) }),
     newTreeItem({ id: observe("8"), label: observe("Item 09"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('7'), icon: observe({ content: IconAction }) }),
-    newTreeItem({ id: observe("9"), label: observe("Item 10"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('8'), icon: observe({ content: IconAction }) }),
+    newTreeItem({ id: observe("9"), label: observe("Item 10"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('8'), icon: observe({ content: IconAction }), /* isAllowedToggleNodeExpand: observe(false) */ }),
     newTreeItem({ id: observe("10"), label: observe("Item 11"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('9'), icon: observe({ content: IconAction }) }),
     newTreeItem({ id: observe("11"), label: observe("Item 12"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('10'), icon: observe({ content: IconAction }) }),
     newTreeItem({ id: observe("12"), label: observe("Item 13"), canDropList: observe(['ITEM']), type: observe('ITEM'), ascendantId: observe('11'), icon: observe({ content: IconAction }) }),
