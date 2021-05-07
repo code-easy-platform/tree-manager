@@ -84,7 +84,21 @@ export const useItemsByAscendentId = (id: string | undefined) => {
         return () => subscriptions.forEach(subs => subs?.unsubscribe());
     }, [id, items]);
 
-    return childs;
+    useEffect(() => {
+        const subscriptions: ISubscription[] = [];
+
+        childs.forEach(item => {
+            subscriptions.push(
+                item.order.subscribe(() => {
+                    setChilds(childs.sort((a, b) => a.order.value - b.order.value));
+                })
+            );
+        });
+
+        return () => subscriptions.forEach(subs => subs?.unsubscribe());
+    }, [childs]);
+
+    return childs.sort((a, b) => a.order.value - b.order.value);
 }
 
 export const useItems = () => {
@@ -115,9 +129,6 @@ export const useItems = () => {
     }, [items]);
 
     const changeAscendentById = useCallback((id: string | undefined, targetId: string | undefined, position: 'up' | 'center' | 'down' = 'center') => {
-
-        console.log(position)
-
         if (!id && !targetId) return;
 
         if (id === targetId) return;
@@ -126,6 +137,9 @@ export const useItems = () => {
         if (!droppedItem) return;
 
         if (position === 'center') {
+            const targetChilds = items.filter(item => item.ascendantId.value === targetId);
+
+            set(droppedItem.order, targetChilds.length - 1);
             set(droppedItem.ascendantId, targetId);
             return;
         }
@@ -134,6 +148,7 @@ export const useItems = () => {
             const targetItem = items.find(item => item.id.value === targetId);
             if (!targetItem) return;
 
+            set(droppedItem.order, targetItem.order.value);
             set(droppedItem.ascendantId, targetItem.ascendantId.value);
             return;
         }
@@ -145,15 +160,17 @@ export const useItems = () => {
             if (!targetItem) return;
 
             if (targetChilds.length > 0 && targetItem.nodeExpanded.value) {
-                // set(droppedItem.order, 0);
+                set(droppedItem.order, 0);
                 set(droppedItem.ascendantId, targetId);
+                targetChilds.forEach(targetChild => {
+                    set(targetChild.order, old => old + 1);
+                });
             } else {
-
+                set(droppedItem.order, targetItem.order.value + 1);
                 set(droppedItem.ascendantId, targetItem.ascendantId.value);
             }
             return;
         }
-
     }, [items]);
 
     return {

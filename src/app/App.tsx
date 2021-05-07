@@ -19,8 +19,8 @@ const App: FC = () => {
         <div style={{ width: 500, height: 500, alignSelf: "center", backgroundColor: "#1E1E1E", flexDirection: "column", boxShadow: 'black 0px 0px 10px' }}>
 
           <TreeManager
-            // key="MyKey"
             items={items}
+            // key="MyTreeKey"
             onEdit={console.log}
             onSelect={console.log}
             // onFocus={console.log}

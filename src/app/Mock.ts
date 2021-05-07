@@ -8,6 +8,7 @@ type TOptional<T> = { [k in keyof T]?: T[k] };
 
 const newTreeItem = (value: TOptional<ITreeItem>): ITreeItem => {
     return {
+        order: value.order || observe(0),
         id: value.id || observe(undefined),
         type: value.type || observe('ITEM'),
         icon: value.icon || observe(undefined),

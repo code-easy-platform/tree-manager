@@ -23,6 +23,7 @@ export const ExpandCollapse: React.FC<ExpandCollapseProps> = memo(({ isExpanded 
     if (isExpanded) return (
         <VscChevronDown
             size={16}
+            tabIndex={-1}
             onClick={handleClick}
             onMouseDown={e => e.stopPropagation()}
             opacity={!allowToggle ? 0.5 : undefined}
@@ -33,6 +34,7 @@ export const ExpandCollapse: React.FC<ExpandCollapseProps> = memo(({ isExpanded 
     return (
         <VscChevronRight
             size={16}
+            tabIndex={-1}
             onClick={handleClick}
             onMouseDown={e => e.stopPropagation()}
             opacity={!allowToggle ? 0.5 : undefined}

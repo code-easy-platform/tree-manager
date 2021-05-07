@@ -1,10 +1,11 @@
+import { memo } from "react";
 
 interface InsertBarProps {
   marginLeft?: number;
   background?: string;
   visible: boolean;
 }
-export const InsertBar: React.FC<InsertBarProps> = ({ visible, marginLeft = 0, background = 'green' }) => {
+export const InsertBar: React.FC<InsertBarProps> = memo(({ visible, marginLeft = 0, background = 'green' }) => {
   if (!visible) return null;
 
   return (
@@ -22,4 +23,4 @@ export const InsertBar: React.FC<InsertBarProps> = ({ visible, marginLeft = 0, b
       }}
     />
   );
-}
+});
