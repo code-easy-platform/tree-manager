@@ -114,15 +114,46 @@ export const useItems = () => {
         });
     }, [items]);
 
-    const changeAscendentById = useCallback((id: string | undefined, targetId: string | undefined) => {
+    const changeAscendentById = useCallback((id: string | undefined, targetId: string | undefined, position: 'up' | 'center' | 'down' = 'center') => {
+
+        console.log(position)
+
         if (!id && !targetId) return;
 
         if (id === targetId) return;
 
         const droppedItem = items.find(item => item.id.value === id);
-        if (droppedItem) {
+        if (!droppedItem) return;
+
+        if (position === 'center') {
             set(droppedItem.ascendantId, targetId);
+            return;
         }
+
+        else if (position === 'up') {
+            const targetItem = items.find(item => item.id.value === targetId);
+            if (!targetItem) return;
+
+            set(droppedItem.ascendantId, targetItem.ascendantId.value);
+            return;
+        }
+
+        else if (position === 'down') {
+            const targetChilds = items.filter(item => item.ascendantId.value === targetId).filter(item => item.id.value !== id);
+
+            const targetItem = items.find(item => item.id.value === targetId);
+            if (!targetItem) return;
+
+            if (targetChilds.length > 0 && targetItem.nodeExpanded.value) {
+                // set(droppedItem.order, 0);
+                set(droppedItem.ascendantId, targetId);
+            } else {
+
+                set(droppedItem.ascendantId, targetItem.ascendantId.value);
+            }
+            return;
+        }
+
     }, [items]);
 
     return {
@@ -139,4 +170,4 @@ export const useItems = () => {
          */
         editItem,
     }
-} 
+}

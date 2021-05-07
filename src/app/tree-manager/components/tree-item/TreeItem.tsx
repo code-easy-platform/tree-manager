@@ -54,13 +54,10 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
 
     /* Focus in this label element */
     useEffect(() => {
-        if (isSelected) {
-            const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} .tree-item > .tree-item-label`);
-            if (!treeItemLabel) return;
-
-            (treeItemLabel as any)?.focus();
+        if (isSelected && treeItemLabelHtmlRef.current) {
+            treeItemLabelHtmlRef.current.focus();
         }
-    }, [isSelected, treeIdentifier]);
+    }, [isSelected]);
 
 
     /** Emits an event to identify which element was clicked. */
@@ -94,10 +91,9 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
         const allTreeItems = Array.from(document.querySelectorAll(`#${treeIdentifier} .tree-item > .tree-item-label[tabIndex="0"]`));
         if (allTreeItems.length === 0) return;
 
-        const treeItemLabel = treeItemHtmlRef.current?.querySelector(`#${treeIdentifier} .tree-item > .tree-item-label`);
-        if (!treeItemLabel) return;
+        if (!treeItemLabelHtmlRef.current) return;
 
-        const index = allTreeItems.indexOf(treeItemLabel);
+        const index = allTreeItems.indexOf(treeItemLabelHtmlRef.current);
         if (index < 0) return;
 
         switch (e.key) {
@@ -202,13 +198,35 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
         setIsOverStartCurrent(false);
     }, []);
 
+    const handleDrop = useCallback((item: IDroppableItem, monitor: DropTargetMonitor, isOverStart: boolean, isOverEnd: boolean, isOverCurrentStart: boolean, isOverCurrentEnd: boolean) => {
+        setIsOverEnd(false);
+        setIsOverStart(false);
+        setIsOverEndCurrent(false);
+        setIsOverStartCurrent(false);
+
+        if (item.id === id || disabledToDrop.some(itemId => itemId === item.id)) return;
+
+        if (monitor.didDrop()) return;
+
+        if (!isOverStart && !isOverEnd && !isOverCurrentStart && !isOverCurrentEnd) return;
+
+        const position = isOverCurrentStart || isOverCurrentEnd
+            ? 'center'
+            : isOverStart
+                ? 'up'
+                : 'down';
+
+
+        changeAscById(item.id, id, position);
+    }, [changeAscById, disabledToDrop, id]);
+
 
     const [, dropRef] = useDrop<IDroppableItem, any, any>({
-        // drop: item => { },
         hover: handleHover,
         accept: canDropList,
         canDrop: () => isUseDrop && !isDisabledDrop,
-    }, [canDropList, isUseDrop, isDisabledDrop, handleHover]);
+        drop: (item, monitor) => handleDrop(item, monitor, isOverStart, isOverEnd, isOverCurrentStart, isOverCurrentEnd),
+    }, [canDropList, isUseDrop, isDisabledDrop, isOverStart, isOverEnd, isOverCurrentStart, isOverCurrentEnd, handleHover]);
 
     const [{ isDragging }, dragRef, preview] = useDrag<IDroppableItem, any, { isDragging: boolean }>({
         type,
@@ -224,7 +242,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
         },
     }, [id, icon, label, isUseDrag, isDisabledDrag, type]);
 
-    dropRef(dragRef(treeItemHtmlRef));
+    dropRef(dragRef(treeItemLabelHtmlRef));
 
     /** Faz com que o item que está sendo arrastado tenha um preview custumizado */
     useEffect(() => {
@@ -253,6 +271,8 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
             />
 
             <label
+                role="treeitem"
+                aria-label={label}
                 title={description}
                 onClick={handleSelect}
                 style={{ paddingLeft }}
@@ -261,7 +281,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
                 onDoubleClick={handleEdit}
                 className="tree-item-label"
                 onContextMenu={handleContext}
-                tabIndex={(isDisabledSelect || isDisabled) ? -1 : 0}
+                tabIndex={(isDisabledSelect || isDisabled || isDisabledClick) ? -1 : 0}
 
                 tree-item-editing={String(isEditing)}
                 tree-item-has-error={String(hasError)}

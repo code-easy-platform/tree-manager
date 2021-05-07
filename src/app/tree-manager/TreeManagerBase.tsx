@@ -43,6 +43,7 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
     return (
         <div
             id={id}
+            role="tree"
             tabIndex={0}
             onFocus={onFocus}
             className="tree-base"

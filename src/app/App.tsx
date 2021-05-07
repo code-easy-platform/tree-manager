@@ -31,7 +31,7 @@ const App: FC = () => {
             // childrenWhenEmpty={"Right click here to add features"}
             configs={{
               id: 'MyTree',
-              leftPadding: 16,
+              // leftPadding: 16,
               isUseDrag: true,
               isUseDrop: true,
               // errorTextColor: 'red',
