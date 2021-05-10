@@ -90,7 +90,7 @@ export const useItemsByAscendentId = (id: string | undefined) => {
         childs.forEach(item => {
             subscriptions.push(
                 item.order.subscribe(() => {
-                    setChilds(childs.sort((a, b) => a.order.value - b.order.value));
+                    setChilds([...childs.sort((a, b) => a.order.value - b.order.value)]);
                 })
             );
         });
@@ -136,41 +136,64 @@ export const useItems = () => {
         const droppedItem = items.find(item => item.id.value === id);
         if (!droppedItem) return;
 
-        if (position === 'center') {
-            const targetChilds = items.filter(item => item.ascendantId.value === targetId);
+        const targetChilds = items.filter(item => item.ascendantId.value === targetId);
+        const targetItem = items.find(item => item.id.value === targetId);
+        const parentChilds = items.filter(item => item.ascendantId.value === targetItem?.ascendantId.value);
 
+        // Insert the item in the last position
+        if (position === 'center') {
             set(droppedItem.order, targetChilds.length - 1);
             set(droppedItem.ascendantId, targetId);
             return;
         }
 
+        // Insert the item in the parent at the current order
         else if (position === 'up') {
-            const targetItem = items.find(item => item.id.value === targetId);
             if (!targetItem) return;
 
             set(droppedItem.order, targetItem.order.value);
             set(droppedItem.ascendantId, targetItem.ascendantId.value);
-            return;
-        }
 
-        else if (position === 'down') {
-            const targetChilds = items.filter(item => item.ascendantId.value === targetId).filter(item => item.id.value !== id);
-
-            const targetItem = items.find(item => item.id.value === targetId);
-            if (!targetItem) return;
-
-            if (targetChilds.length > 0 && targetItem.nodeExpanded.value) {
-                set(droppedItem.order, 0);
-                set(droppedItem.ascendantId, targetId);
-                targetChilds.forEach(targetChild => {
-                    set(targetChild.order, old => old + 1);
-                });
-            } else {
-                set(droppedItem.order, targetItem.order.value + 1);
-                set(droppedItem.ascendantId, targetItem.ascendantId.value);
+            const startIndex = parentChilds.findIndex(child => child.id.value === targetId);
+            for (let index = startIndex; index < parentChilds.length; index++) {
+                const child = parentChilds[index];
+                set(child.order, child.order.value + 1);
             }
             return;
         }
+
+        // If this item is expanded insert the inside. If this item is collapsed insert in the current order + 1
+        else if (position === 'down') {
+            if (!targetItem) return;
+
+            const filteredTargetChilds = targetChilds.filter(item => item.id.value !== id);
+
+            if (filteredTargetChilds.length > 0 && targetItem.nodeExpanded.value) {
+                set(droppedItem.order, 0);
+                set(droppedItem.ascendantId, targetId);
+
+                filteredTargetChilds.forEach(targetChild => {
+                    set(targetChild.order, old => old + 1);
+                });
+            } else {
+                set(droppedItem.ascendantId, targetItem.ascendantId.value);
+
+                const startIndex = parentChilds.findIndex(child => child.id.value === targetId);
+                for (let index = startIndex; index < parentChilds.length; index++) {
+                    const child = parentChilds[index];
+                    set(child.order, child.order.value + 1);
+                }
+            }
+            return;
+        }
+    }, [items]);
+
+    const handleSelectAll = useCallback(() => {
+        items.forEach(item => {
+            if (item.isDisabledSelect.value || item.isDisabled.value || item.isDisabledClick.value) return;
+
+            set(item.isSelected, true);
+        });
     }, [items]);
 
     return {
@@ -186,5 +209,9 @@ export const useItems = () => {
          * Edit only a item 
          */
         editItem,
+        /**
+         * Edit only a item 
+         */
+        selectAll: handleSelectAll,
     }
 }

@@ -21,7 +21,7 @@ interface TreeItemProps {
 }
 export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledToDrop = [], children, showExpandIcon, onContextMenu }) => {
     const { isUseDrag, isUseDrop = true, id: treeIdentifier, activeItemBackgroundColor, leftPadding = 8 } = useConfigs();
-    const { editItem, selectItem, changeAscById } = useItems();
+    const { editItem, selectItem, changeAscById, selectAll } = useItems();
 
     const treeItemLabelHtmlRef = useRef<HTMLLabelElement>(null);
     const treeItemHtmlRef = useRef<HTMLDivElement>(null);
@@ -136,9 +136,12 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
 
                 (treeBase as any).focus();
                 break;
+            case 'a':
+                if (e.ctrlKey) selectAll();
+                break;
             default: break;
         }
-    }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, editItem, item.isEditing, setNodeExpanded]);
+    }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, item.isEditing, selectAll, setNodeExpanded, editItem]);
 
     const handleHover = useCallback((item: IDroppableItem, monitor: DropTargetMonitor) => {
         if (!treeItemHtmlRef.current || !treeItemLabelHtmlRef.current) {

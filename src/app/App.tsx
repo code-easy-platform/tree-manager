@@ -21,13 +21,13 @@ const App: FC = () => {
           <TreeManager
             items={items}
             // key="MyTreeKey"
-            onEdit={console.log}
-            onSelect={console.log}
+            // onEdit={console.log}
+            // onSelect={console.log}
             // onFocus={console.log}
             // onKeyDown={console.log}
             // onDropItem={console.log}
             // onExpandNode={console.log}
-            onContextMenu={console.log}
+            // onContextMenu={console.log}
             // childrenWhenEmpty={"Right click here to add features"}
             configs={{
               id: 'MyTree',

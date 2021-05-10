@@ -2,13 +2,14 @@ import React, { useCallback } from 'react';
 
 import { EmptyFeedback, OnEditListener, OnSelectListener, Tree } from './components';
 import { ITreeManagerProps, ITreeManagerEvents } from './shared/interfaces';
-import { useBaseItems, useConfigs } from './shared/hooks';
+import { useBaseItems, useConfigs, useItems } from './shared/hooks';
 import './TreeManagerBase.css';
 
 interface TreeManagerBaseProps extends Omit<ITreeManagerProps, 'items'>, ITreeManagerEvents { }
 export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEmpty, onFocus, onContextMenu, onKeyDown, onSelect, onEdit }) => {
     const { showEmptyMessage, id } = useConfigs();
     const baseItems = useBaseItems();
+    const { selectAll } = useItems();
 
     const handleContextMenu = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.stopPropagation();
@@ -34,11 +35,14 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
                 (allTreeItems[0] as any)?.click();
                 (allTreeItems[0] as any)?.focus();
                 break;
+            case 'a':
+                if (e.ctrlKey) selectAll();
+                break;
             default: break;
         }
 
         onKeyDown && onKeyDown(e);
-    }, [id, onKeyDown]);
+    }, [id, onKeyDown, selectAll]);
 
     return (
         <div
