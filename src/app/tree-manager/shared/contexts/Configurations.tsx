@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { ITreeManagerConfigs } from '../interfaces';
 
@@ -14,6 +15,7 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
     // GENERAL
     configs.showEmptyMessage = configs.showEmptyMessage || false;
     configs.leftPadding = configs.leftPadding || 8;
+    configs.id = configs.id || uuid();
 
     const setCSSVars = useCallback(() => {
         document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#ffffff10'}`);

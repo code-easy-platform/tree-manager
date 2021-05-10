@@ -16,7 +16,7 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
         onContextMenu && onContextMenu(undefined, e);
     }, [onContextMenu]);
 
-    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = useCallback(e => {
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement | HTMLLabelElement> = useCallback(e => {
         e.stopPropagation();
         e.preventDefault();
 
@@ -58,6 +58,7 @@ export const TreeManagerBase: React.FC<TreeManagerBaseProps> = ({ childrenWhenEm
                 <Tree
                     key={index}
                     item={item}
+                    onKeyDown={handleKeyDown}
                     onContextMenu={onContextMenu}
                 />
             ))}

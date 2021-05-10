@@ -133,56 +133,62 @@ export const useItems = () => {
 
         if (id === targetId) return;
 
+        /* Current drag item */
         const droppedItem = items.find(item => item.id.value === id);
         if (!droppedItem) return;
 
-        const targetChilds = items.filter(item => item.ascendantId.value === targetId);
+        /* Current target item */
         const targetItem = items.find(item => item.id.value === targetId);
-        const parentChilds = items.filter(item => item.ascendantId.value === targetItem?.ascendantId.value);
+        if (!targetItem) return;
+
+        /* All childs of the target iterm */
+        const targetChilds = items.filter(item => item.ascendantId.value === targetId);
+
+        /* All childs of the target parent item */
+        const parentChilds = items.filter(item => item.ascendantId.value === targetItem.ascendantId.value);
 
         // Insert the item in the last position
         if (position === 'center') {
-            set(droppedItem.order, targetChilds.length - 1);
+            const filteredTargetChilds = targetChilds.filter(item => item.id.value !== id);
+
             set(droppedItem.ascendantId, targetId);
+
+            filteredTargetChilds.splice(filteredTargetChilds.length, 0, droppedItem);
+
+            filteredTargetChilds.forEach((child, index) => set(child.order, index));
             return;
         }
 
         // Insert the item in the parent at the current order
         else if (position === 'up') {
-            if (!targetItem) return;
+            const filteredParentChilds = parentChilds.filter(item => item.id.value !== id);
 
-            set(droppedItem.order, targetItem.order.value);
             set(droppedItem.ascendantId, targetItem.ascendantId.value);
 
-            const startIndex = parentChilds.findIndex(child => child.id.value === targetId);
-            for (let index = startIndex; index < parentChilds.length; index++) {
-                const child = parentChilds[index];
-                set(child.order, child.order.value + 1);
-            }
+            filteredParentChilds.splice(targetItem.order.value, 0, droppedItem);
+
+            filteredParentChilds.forEach((child, index) => set(child.order, index));
             return;
         }
 
-        // If this item is expanded insert the inside. If this item is collapsed insert in the current order + 1
+        // If this item is expanded insert the dragged item inside. If this item is collapsed insert in the current order + 1
         else if (position === 'down') {
-            if (!targetItem) return;
-
             const filteredTargetChilds = targetChilds.filter(item => item.id.value !== id);
 
             if (filteredTargetChilds.length > 0 && targetItem.nodeExpanded.value) {
-                set(droppedItem.order, 0);
                 set(droppedItem.ascendantId, targetId);
 
-                filteredTargetChilds.forEach(targetChild => {
-                    set(targetChild.order, old => old + 1);
-                });
+                filteredTargetChilds.splice(0, 0, droppedItem);
+
+                filteredTargetChilds.forEach((child, index) => set(child.order, index));
             } else {
+                const filteredParentChilds = parentChilds.filter(item => item.id.value !== id);
+
                 set(droppedItem.ascendantId, targetItem.ascendantId.value);
 
-                const startIndex = parentChilds.findIndex(child => child.id.value === targetId);
-                for (let index = startIndex; index < parentChilds.length; index++) {
-                    const child = parentChilds[index];
-                    set(child.order, child.order.value + 1);
-                }
+                filteredParentChilds.splice(targetItem.order.value + 1, 0, droppedItem);
+
+                filteredParentChilds.forEach((child, index) => set(child.order, index));
             }
             return;
         }

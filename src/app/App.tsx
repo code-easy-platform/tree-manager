@@ -30,7 +30,7 @@ const App: FC = () => {
             // onContextMenu={console.log}
             // childrenWhenEmpty={"Right click here to add features"}
             configs={{
-              id: 'MyTree',
+              // id: 'MyTree',
               // leftPadding: 16,
               isUseDrag: true,
               isUseDrop: true,

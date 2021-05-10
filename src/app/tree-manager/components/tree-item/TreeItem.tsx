@@ -17,9 +17,13 @@ interface TreeItemProps {
     paddingLeft: number;
     showExpandIcon: boolean;
     disabledToDrop?: string[];
+    /**
+     * Event emitted whenever the key press is identified
+     */
+    onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement | HTMLLabelElement>) => void;
     onContextMenu?(itemTreeId: string | undefined, e: React.MouseEvent<any, MouseEvent>): void | undefined;
 }
-export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledToDrop = [], children, showExpandIcon, onContextMenu }) => {
+export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledToDrop = [], children, showExpandIcon, onContextMenu, onKeyDown }) => {
     const { isUseDrag, isUseDrop = true, id: treeIdentifier, activeItemBackgroundColor, leftPadding = 8 } = useConfigs();
     const { editItem, selectItem, changeAscById, selectAll } = useItems();
 
@@ -48,6 +52,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
     const [iconSize] = useObserver(item.iconSize);
     const [hasError] = useObserver(item.hasError);
     const [label] = useObserver(item.label);
+    const [order] = useObserver(item.order);
     const [icon] = useObserver(item.icon);
     const [type] = useObserver(item.type);
     const [id] = useObserver(item.id);
@@ -139,9 +144,12 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
             case 'a':
                 if (e.ctrlKey) selectAll();
                 break;
+            case 'Delete':
+                onKeyDown && onKeyDown(e);
+                break;
             default: break;
         }
-    }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, item.isEditing, selectAll, setNodeExpanded, editItem]);
+    }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, item.isEditing, selectAll, setNodeExpanded, editItem, onKeyDown]);
 
     const handleHover = useCallback((item: IDroppableItem, monitor: DropTargetMonitor) => {
         if (!treeItemHtmlRef.current || !treeItemLabelHtmlRef.current) {
@@ -309,7 +317,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
                 />
 
                 <p className="tree-item-label-content-text">
-                    {label}
+                    {label} ---- Order: {order}
                 </p>
             </label>
 
