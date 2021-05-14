@@ -14,8 +14,8 @@ export const ConfigurationProvider: React.FC<{ configs: ITreeManagerConfigs }> =
 
     // GENERAL
     configs.showEmptyMessage = configs.showEmptyMessage || false;
+    configs.id = configs.id || 'generated-tree-id_' + uuid();
     configs.leftPadding = configs.leftPadding || 8;
-    configs.id = configs.id || uuid();
 
     const setCSSVars = useCallback(() => {
         document.documentElement.style.setProperty('--selected-item-color', `${configs.activeItemBackgroundColor || '#ffffff10'}`);

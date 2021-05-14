@@ -163,9 +163,13 @@ export const useItems = () => {
         else if (position === 'up') {
             const filteredParentChilds = parentChilds.filter(item => item.id.value !== id);
 
-            set(droppedItem.ascendantId, targetItem.ascendantId.value);
+            // Find the index to insert
+            const indexToInsert = filteredParentChilds.findIndex(item => item.id.value === targetItem.id.value);
+            if (indexToInsert === -1) return;
 
-            filteredParentChilds.splice(targetItem.order.value, 0, droppedItem);
+            filteredParentChilds.splice(indexToInsert, 0, droppedItem);
+
+            set(droppedItem.ascendantId, targetItem.ascendantId.value);
 
             filteredParentChilds.forEach((child, index) => set(child.order, index));
             return;
@@ -184,9 +188,13 @@ export const useItems = () => {
             } else {
                 const filteredParentChilds = parentChilds.filter(item => item.id.value !== id);
 
-                set(droppedItem.ascendantId, targetItem.ascendantId.value);
+                // Find the index to insert
+                const indexToInsert = filteredParentChilds.findIndex(item => item.id.value === targetItem.id.value);
+                if (indexToInsert === -1) return;
 
-                filteredParentChilds.splice(targetItem.order.value + 1, 0, droppedItem);
+                filteredParentChilds.splice(indexToInsert + 1, 0, droppedItem);
+
+                set(droppedItem.ascendantId, targetItem.ascendantId.value);
 
                 filteredParentChilds.forEach((child, index) => set(child.order, index));
             }
@@ -206,7 +214,7 @@ export const useItems = () => {
         /**
          * Change the `ascendantId` by the received id
          */
-        changeAscById: changeAscendentById,
+        changeAscendentById,
         /**
          * Select a item and deselects others if necessary
          */

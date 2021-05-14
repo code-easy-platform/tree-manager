@@ -24,7 +24,7 @@ const App: FC = () => {
             // onEdit={console.log}
             // onSelect={console.log}
             // onFocus={console.log}
-            // onKeyDown={console.log}
+            onKeyDown={console.log}
             // onDropItem={console.log}
             // onExpandNode={console.log}
             // onContextMenu={console.log}

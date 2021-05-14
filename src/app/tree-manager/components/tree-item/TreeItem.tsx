@@ -25,7 +25,7 @@ interface TreeItemProps {
 }
 export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledToDrop = [], children, showExpandIcon, onContextMenu, onKeyDown }) => {
     const { isUseDrag, isUseDrop = true, id: treeIdentifier, activeItemBackgroundColor, leftPadding = 8 } = useConfigs();
-    const { editItem, selectItem, changeAscById, selectAll } = useItems();
+    const { editItem, selectItem, changeAscendentById, selectAll } = useItems();
 
     const treeItemLabelHtmlRef = useRef<HTMLLabelElement>(null);
     const treeItemHtmlRef = useRef<HTMLDivElement>(null);
@@ -143,11 +143,16 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
                 break;
             case 'a':
                 if (e.ctrlKey) selectAll();
-                break;
-            case 'Delete':
                 onKeyDown && onKeyDown(e);
                 break;
-            default: break;
+            case ' ':
+                if (isAllowedToggleNodeExpand) {
+                    setNodeExpanded(old => !old);
+                }
+                break;
+            default:
+                onKeyDown && onKeyDown(e);
+                break;
         }
     }, [treeIdentifier, nodeExpanded, isAllowedToggleNodeExpand, isDisabled, isDisabledDoubleClick, item.isEditing, selectAll, setNodeExpanded, editItem, onKeyDown]);
 
@@ -228,8 +233,8 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
                 : 'down';
 
 
-        changeAscById(item.id, id, position);
-    }, [changeAscById, disabledToDrop, id]);
+        changeAscendentById(item.id, id, position);
+    }, [changeAscendentById, disabledToDrop, id]);
 
 
     const [, dropRef] = useDrop<IDroppableItem, any, any>({
@@ -352,7 +357,7 @@ interface _TreeItemProps extends ITreeItem {
 }
 export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onContextMenu, paddingLeft, children, ...props }) => {
     const { isUseDrag, isUseDrop, id: treeIdentifier, activeItemBackgroundColor } = useConfigs();
-    const { editItem, selectItem, changeAscById } = useItems();
+    const { editItem, selectItem, changeAscendentById } = useItems();
 
     const radioItemRef = useRef<HTMLInputElement>(null);
     const itemRef = useRef<HTMLLabelElement>(null);
@@ -448,8 +453,8 @@ export const _TreeItem: React.FC<_TreeItemProps> = ({ disabledToDrop = [], onCon
 
 
     const handleOnDrop = useCallback((droppedId: string | undefined) => {
-        changeAscById(droppedId, id)
-    }, [changeAscById, id]);
+        changeAscendentById(droppedId, id)
+    }, [changeAscendentById, id]);
 
     //#endregion
 
