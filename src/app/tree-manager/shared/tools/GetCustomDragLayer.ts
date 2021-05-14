@@ -13,12 +13,12 @@ export const getCustomDragLayer = (text: string, options?: IOptions): HTMLLabelE
 
   container.style.backgroundColor = options?.color || 'green';
   container.style.fontSize = 'var(--font-size)';
+  container.style.width = 'max-content';
   container.style.alignItems = 'center';
   container.style.borderRadius = '4px';
   container.style.position = 'fixed';
   container.style.display = 'flex';
   container.style.zIndex = '-100';
-  container.style.width = 'auto';
 
   if (options?.icon && options?.icon.includes('data')) {
     const icon = document.createElement('img');

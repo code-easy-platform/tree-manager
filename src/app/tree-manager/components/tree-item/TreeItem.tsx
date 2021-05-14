@@ -52,7 +52,6 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
     const [iconSize] = useObserver(item.iconSize);
     const [hasError] = useObserver(item.hasError);
     const [label] = useObserver(item.label);
-    const [order] = useObserver(item.order);
     const [icon] = useObserver(item.icon);
     const [type] = useObserver(item.type);
     const [id] = useObserver(item.id);
@@ -322,7 +321,7 @@ export const TreeItem: React.FC<TreeItemProps> = ({ item, paddingLeft, disabledT
                 />
 
                 <p className="tree-item-label-content-text">
-                    {label} ---- Order: {order}
+                    {label}
                 </p>
             </label>
 
