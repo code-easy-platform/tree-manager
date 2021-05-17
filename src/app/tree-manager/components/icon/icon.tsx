@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import './icon.css';
 
 /**
@@ -16,7 +16,7 @@ interface IconProps {
     onClick?(e: React.MouseEvent<HTMLImageElement, MouseEvent>): void;
     onDoubleClick?(e: React.MouseEvent<HTMLImageElement, MouseEvent>): void;
 }
-export const Icon: React.FC<IconProps> = ({ onClick, onDoubleClick, icon, iconName, show, iconSize = 25 }) => {
+export const Icon: React.FC<IconProps> = memo(({ onClick, onDoubleClick, icon, iconName, show, iconSize = 25 }) => {
 
     const handleOnClick = useCallback((e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         e.stopPropagation();
@@ -40,10 +40,10 @@ export const Icon: React.FC<IconProps> = ({ onClick, onDoubleClick, icon, iconNa
             src={icon}
             width={iconSize}
             height={iconSize}
-            style={{ marginRight: 8 }}
             onMouseDown={handleOnClick}
             alt={"TreeItem_" + iconName}
             onDoubleClick={handleOnDoubleClick}
+            style={{ marginRight: 4, marginLeft: 4 }}
         />
     );
-}
+});
