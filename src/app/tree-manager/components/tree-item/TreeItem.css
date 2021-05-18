@@ -6,6 +6,7 @@
 
 .tree-item-label {
     border: thin solid transparent;
+    outline: none!important;
     text-overflow: ellipsis;
     word-break: keep-all;
     align-items: center;
@@ -65,7 +66,6 @@
 }
 
 [tree-item-is-dragging-over="true"] {
-    outline: none;
     background-color: #ffffff10;
     border: thin solid var(--border-selected-item-color);
 }
