@@ -65,6 +65,7 @@
 }
 
 [tree-item-is-dragging-over="true"] {
+    outline: none;
     background-color: #ffffff10;
     border: thin solid var(--border-selected-item-color);
 }
