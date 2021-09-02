@@ -27,7 +27,7 @@ export const ExpandCollapse: React.FC<ExpandCollapseProps> = memo(({ isExpanded 
             onClick={handleClick}
             onMouseDown={e => e.stopPropagation()}
             opacity={!allowToggle ? 0.5 : undefined}
-            style={{ width: 16, minWidth: 16, marginRight: 4, marginLeft: 4 }}
+            style={{ width: 16, minWidth: 16, marginRight: 4, marginLeft: 4, outline: 'none' }}
         />
     );
 
@@ -38,7 +38,7 @@ export const ExpandCollapse: React.FC<ExpandCollapseProps> = memo(({ isExpanded 
             onClick={handleClick}
             onMouseDown={e => e.stopPropagation()}
             opacity={!allowToggle ? 0.5 : undefined}
-            style={{ width: 16, marginRight: 4, marginLeft: 4 }}
+            style={{ width: 16, marginRight: 4, marginLeft: 4, outline: 'none' }}
         />
     );
 });

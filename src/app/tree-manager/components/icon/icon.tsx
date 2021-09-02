@@ -37,11 +37,11 @@ export const Icon: React.FC<IconProps> = memo(({ onClick, onDoubleClick, icon, i
 
     return (
         <img
+            alt=""
             src={icon}
             width={iconSize}
             height={iconSize}
             onMouseDown={handleOnClick}
-            alt={"TreeItem_" + iconName}
             onDoubleClick={handleOnDoubleClick}
             style={{ marginRight: 4, marginLeft: 4 }}
         />
